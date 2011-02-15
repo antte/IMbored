@@ -3,9 +3,9 @@ $(document).ready(function() {
        (navigator.geolocation.getCurrentPosition(foundLocation, noLocation));
 
 	    function foundLocation(position) {
-	        var lat = position.coords.latitude;
 	        var long = position.coords.longitude;
-	        alert('Found location: ' + lat + ', ' + long);
+			var lat = position.coords.latitude;
+	        alert('Found location: ' + long + ', ' + lat);
 	
 	    }    
 
