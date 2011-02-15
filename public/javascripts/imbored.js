@@ -22,5 +22,16 @@ $(document).ready(function() {
 			contentType: 'application/json'
 			
 		});
+		
+		
+		     /* Converts an atomic (as in small bits) event datetime values into a human
+		     * readable datetime. Such as "18th of April 2011 at 13:40pm".
+		     * TODO: IMPLEMENT
+		     */
+		    function unixtime_to_human (unixtime) {
+			    
+			  var human = new Date;
+			 
+		    }
 	
 });
