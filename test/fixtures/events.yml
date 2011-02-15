@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  titel: MyString
+  location: MyString
+  description: MyString
+  latitude: 1.5
+  longitude: 1.5
+  price: 1.5
+  startTime: 
+  endTime: 
+
+two:
+  titel: MyString
+  location: MyString
+  description: MyString
+  latitude: 1.5
+  longitude: 1.5
+  price: 1.5
+  startTime: 
+  endTime: 
