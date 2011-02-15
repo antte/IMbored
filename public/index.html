@@ -8,21 +8,27 @@
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js" type="text/javascript"></script>
         <script src="javascripts/imbored.js" type="text/javascript"></script>
+        <!--
+          TODO: The media attribute should be set to "handheld", screen is for
+          testing purposes.
+          -->
         <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" />
     </head>
     <body>
-        <section id="controlpanel">
-            <a id="go" href="#go">go</a>
-        </section>
-        <section id="events">
-            <article class="vevent"><!-- see microformats.org hCalendar specification-->
-                <h1 class="summary">Aerosmith at Globen Stockholm</h1>
-                <time class="dtstart" datetime="2011-04-18T13:40-07:00" title="2011-04-18T13:40-0700">18th of April 2011 at 13:40pm</time>
-                <time class="duration" title="5">Five hours long</time>
-                <p class="description">
-                    Aerosmith spelar i Globen i stockholm.
-                </p>
-            </article>
+        <section id="main">
+            <section id="controlpanel">
+                <a id="go" href="#go">go</a>
+            </section>
+            <section id="events">
+                <article class="vevent"><!-- see microformats.org hCalendar specification-->
+                    <h1 class="summary">Aerosmith at Globen Stockholm</h1>
+                    <time class="dtstart" datetime="2011-04-18T13:40-07:00" title="2011-04-18T13:40-0700">18th of April 2011 at 13:40pm</time>
+                    <time class="duration" title="5">Five hours long</time>
+                    <p class="description">
+                        Aerosmith spelar i Globen i stockholm.
+                    </p>
+                </article>
+            </section>
         </section>
     </body>
 </html>

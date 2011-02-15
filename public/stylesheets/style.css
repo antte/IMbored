@@ -1,3 +1,154 @@
-/*
- *  General css for imbored
+/**
+ * IMBored
+ *
+ * Styles for imbored mobile frontend
  */
+
+/*
+ * Older browsers ignores the handheld media attribute of the link element and
+ * applies the style sheet anyway, to prevent this we qualify all styles with
+ * the @media handheld selector.
+ * see http://perishablepress.com/press/2009/08/02/the-5-minute-css-mobile-makeover/ 
+ */
+/*
+@media handheld {
+ 
+}
+*/
+
+/*
+ * Reset
+ */
+
+/* 
+ * Merged with:
+ * http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+
+h1,h2,h3,h4,h5,h6 { font-weight: normal; }
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*
+ * Some base values
+ */
+
+body { 
+    background: #fff; 
+    color: #000;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    padding: 3px;
+}
+
+h1 {
+    font-size: 1.76em;
+}
+
+h2 {
+    font-size: 1.62em;
+}
+
+h3 {
+    font-size: 1.54em;
+}
+
+h4 {
+    font-size: 1.46em;
+}
+
+h5 {
+    font-size: 1.38em;
+}
+
+h6 {
+    font-size: 1.30em;
+}
+
+p img {
+    float: left;
+    margin: 0 10px 5px 0;
+    padding: 0;
+}
+
+img {
+    border: 0;
+    max-width: 100%;
+}
+
+/**
+ * Controlpanel
+ */
+
+#controlpanel {
+}
+
+/**
+ * Event list and events 
+ */
+
+#events .dtstart {
+    font-size: 0.76em;
+    color: #333;
+}
+
+#events .duration {
+    display: none;
+}
+
+#events .vevent h1 {
+    
+}
