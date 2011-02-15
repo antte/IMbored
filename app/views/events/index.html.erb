@@ -1,0 +1,30 @@
+<h1>Listing events</h1>
+
+<table>
+  <tr>
+    <th>Titel</th>
+    <th>Location</th>
+    <th>Description</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Price</th>
+    <th>Starttime</th>
+    <th>Endtime</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= event.title %></td>
+    <td><%= event.location %></td>
+    <td><%= event.description %></td>
+    <td><%= event.latitude %></td>
+    <td><%= event.longitude %></td>
+    <td><%= event.price %></td>
+    <td><%= event.startTime %></td>
+    <td><%= event.endTime %></td>
+  </tr>
+<% end %>
+</table>

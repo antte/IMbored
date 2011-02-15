@@ -1,7 +1,36 @@
 /*
- * DEPENDENCIES: datetime.js
+ * DEPENDENCIES: datetime.js (our own "lib")
  */
 $(document).ready(function(){
+
+    var coordinates = {};
+
+    function foundLocation(position) {
+        coordinates.longitude = position.coords.longitude;
+        coordinates.latitude = position.coords.latitude;
+        alert('Found location: ' + longitude + ', ' + latitude);
+    }    
+
+    function noLocation() {
+        alert('Could not find location');
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(foundLocation, noLocation);
+    } 
+    
+    $.ajax({
+        url: 'http://localhost:3000/events/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        dataType: 'json',
+        type: 'GET',
+        processData: false,
+        contentType: 'application/json',
+        success: function(data) {
+            console.log(data);
+        }
+    });
+
+    console.log(coordinates);
 
     var events_container = $("#events");
     
