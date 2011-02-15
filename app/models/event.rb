@@ -18,7 +18,7 @@ class Event
         self.price = attributes[:price]
         self.latitude = attributes[:latitude]
         self.id = attributes[:id]
-        self.starttime = attributes[:start_time]
+        self.start_time = attributes[:start_time]
     end
 
     def read_attribute_for_validation(key)
