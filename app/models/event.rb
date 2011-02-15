@@ -1,5 +1,5 @@
 class Event
-    require 'APIHandler.rb'     
+    require '../../lib/APIHandler.rb'     
     attr_accessor :title, :location, :description, :latitude, :longitude, :price, :startTime, :endTime, :id
 
     def self.all(options)
@@ -29,3 +29,8 @@ class Event
     end
 
 end
+
+
+a = array.new 
+a.push = lastFMggeteventys()
+  Event.new()
