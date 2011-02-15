@@ -1,13 +1,13 @@
 class Event
-         
+    require 'APIHandler.rb'     
     attr_accessor :title, :location, :description, :latitude, :longitude, :price, :startTime, :endTime, :id
 
-    def self.all
-      # return Api.getEvents(option)
+    def self.all(options)
+      #APIHandler.get_events(options)
       return {}
     end
     
-    def self.find(param)
+    def self.find(params)
       return Event.new({
         :title => "Lorum Ipsum", 
         :location => "", 
