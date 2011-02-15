@@ -3,8 +3,7 @@ class Event
     attr_accessor :title, :location, :description, :latitude, :longitude, :price, :startTime, :endTime, :id
 
     def self.all(options)
-      #APIHandler.get_events(options)
-      return {}
+      APIHandler.get_events(options)
     end
     
     def self.find(params)

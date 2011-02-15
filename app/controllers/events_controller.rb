@@ -4,8 +4,9 @@ class EventsController < ApplicationController
   def index
     option  = {
       :long => params[:long],
-      :lati => params[:lati]
+      :lati => params[:lat]
     }
+    
     @events = Event.all(option)
 
     respond_to do |format|
