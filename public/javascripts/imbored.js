@@ -5,44 +5,46 @@ $(document).ready(function(){
 
     var coordinates = {};
 
-    function foundLocation(position) {
-        coordinates.longitude = position.coords.longitude;
-        coordinates.latitude = position.coords.latitude;
-        alert('Found location: ' + longitude + ', ' + latitude);
-    }    
-
-    function noLocation() {
-        alert('Could not find location');
-    }
-
     if (navigator.geolocation) {
+
+        function foundLocation(position) {
+            coordinates.longitude = position.coords.longitude;
+            coordinates.latitude = position.coords.latitude;
+            alert('Found location: ' + longitude + ', ' + latitude);
+        }    
+
+        function noLocation() {
+            alert('Could not find location');
+        }
+
         navigator.geolocation.getCurrentPosition(foundLocation, noLocation);
+
     } 
     
-    $.ajax({
-        url: 'http://localhost:3000/events/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
-        dataType: 'json',
-        type: 'GET',
-        processData: false,
-        contentType: 'application/json',
-        success: function(data) {
-            console.log(data);
-        }
-    });
+    function getEvents(coordinates) {
+        $.ajax({
+            url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+            dataType: 'json',
+            type: 'GET',
+            processData: false,
+            contentType: 'application/json',
+            success: function(data) {
 
-    console.log(coordinates);
+                console.log(data);
+                /*
+                var events = [];
+                for(event in data) {
+                    events.push(data[event]);
+                }
+                return events;
+                */
+            }
+        });
+    }
+    
+    events = getEvents(coordinates);
 
     var events_container = $("#events");
-    
-    test_event = {
-        title: "Aerosmith",
-        unixtime: "1237780635",
-        description: "Aerosmith spelar i Globen i stockholm."
-    };
-
-    var test_events = [];
-    test_events.push(test_event);
-    test_events.push(test_event);
     
     /*
      * Takes an object literal (and/or json??, not sure!) and converts it into a/many
@@ -75,7 +77,7 @@ $(document).ready(function(){
         event_element.append(description_element);
 
         return event_element;
-
+        
     }
 
     /*
@@ -92,8 +94,7 @@ $(document).ready(function(){
         }
     }
 
-    var events = events_to_html(test_events);
-    
+    events = events_to_html(events);
     render_events(events, events_container);
 
 });
