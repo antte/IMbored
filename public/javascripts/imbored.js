@@ -54,7 +54,7 @@ function events_to_html(event) {
     }
 
     // We append alot of stuff to this wrapping event element
-    var event_element =     $("<article>", {class: "vevent"});
+    var event_element =     $("<li>", {class: "vevent"});
 
     var h1_element =        $("<h1>", {class: "summary"}).text(event.title);
     var startdate_element = $("<time>", {
