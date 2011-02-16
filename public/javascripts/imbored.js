@@ -29,7 +29,6 @@ $(document).ready(function(){
             processData: false,
             contentType: 'application/json',
             success: function(data) {
-
                 console.log(data);
                 /*
                 var events = [];

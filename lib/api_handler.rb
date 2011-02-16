@@ -6,10 +6,9 @@ class APIHandler
     def APIHandler.get_events(options)
 
         events = Array.new
+        options= {}
         @@api_interpreters.each do |api_interpreter|
-            api_interpreter.get_events(options).each do |event|
-                events.push(event) 
-            end
+            events = events | api_interpreter.get_events(options) #pipe = combine and remove duples in array
         end
         return events
 
