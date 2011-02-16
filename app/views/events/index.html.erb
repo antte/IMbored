@@ -5,11 +5,7 @@
     <th>Titel</th>
     <th>Location</th>
     <th>Description</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-    <th>Price</th>
     <th>Starttime</th>
-    <th>Endtime</th>
     <th></th>
     <th></th>
     <th></th>
@@ -18,16 +14,16 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= event.title %></td>
-    <td><%= event.location %></td>
-    <td><%= event.description %></td>
-    <td><%= event.latitude %></td>
-    <td><%= event.longitude %></td>
-    <td><%= event.price %></td>
-    <td><%= event.startTime %></td>
-    <td><%= event.endTime %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td> 
+		<ul>
+			<li><%= event.location[:street] %></li>
+			<li><%= event.location[:postal_code] %></li>
+			<li><%= event.location[:city] %></li>
+			<li><%= event.location[:contry] %></li>
+		</ul>
+	</td>
+    <td><%=raw event.description %></td>
+    <td><%= event.event_time %></td>
   </tr>
 <% end %>
 </table>

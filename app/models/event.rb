@@ -1,6 +1,6 @@
 class Event
-    attr_accessor :title, :location, :description, :latitude, :longitude, :price, :start_time, :end_time, :id , :timestamp
-
+    attr_accessor :title, :location, :description, :event_time
+    
     def self.all(options)
         APIHandler.get_events(options)
     end
@@ -10,15 +10,12 @@ class Event
     end 
     
     def initialize(attributes = {})
+        puts(attributes)
         self.title = attributes[:title]
         self.description = attributes[:description]
         self.location = attributes[:location]
-        self.longitude = attributes[:longitude]
-        self.price = attributes[:price]
-        self.latitude = attributes[:latitude]
-        self.id = attributes[:id]
-        self.starttime = attributes[:start_time]
-    end
+        self.event_time = attributes[:event_time]
+     end
 
     def read_attribute_for_validation(key)
         @attributes[key]
