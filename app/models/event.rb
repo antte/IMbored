@@ -1,13 +1,9 @@
 class Event
     attr_accessor :title, :location, :description, :event_time
-    
+
     def self.all(options)
-        APIHandler.get_events(options)
+        APIHandler.get_events({})
     end
-    
-    def self.find(options)
-        APIHandler.get_event(options)    
-    end 
     
     def initialize(attributes = {})
         puts(attributes)
