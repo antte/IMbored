@@ -23,8 +23,8 @@ function format_unixtime(unixtime, format) {
     format = format.replace(RegExp("dd"  ,"g"),  addZero(date.getDate()));
     format = format.replace(RegExp("DD"  ,"g"),  human_day(date));
     format = format.replace(RegExp("MM"  ,"g"),  human_month(date));
-    format = format.replace(RegExp("ii"  ,"g"),  date.getMinutes().toString());
-    format = format.replace(RegExp("hh"  ,"g"),  date.getHours().toString());
+    format = format.replace(RegExp("ii"  ,"g"),  addZero(date.getMinutes().toString()));
+    format = format.replace(RegExp("hh"  ,"g"),  addZero(date.getHours().toString()));
     
     return format;
 
