@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     } 
 
-    events = get_events(coordinates);
+    $("#go").click(get_events(coordinates));
 
 });
 
