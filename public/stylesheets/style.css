@@ -57,6 +57,10 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
+header {
+background-image: url("..images/header.png");
+}
+
 body {
 	line-height: 1;
 }
@@ -92,6 +96,7 @@ body {
     line-height: 1.5;
     word-wrap: break-word;
     padding: 3px;
+    
 }
 
 h1 {
@@ -129,26 +134,63 @@ img {
     max-width: 100%;
 }
 
+
+#main {
+	width: 320px;
+	height:480px;
+	background-image: url(../images/bg.png);
+
+}
 /**
  * Controlpanel
  */
 
 #controlpanel {
+	text-align: center;
+
 }
 
+
+#go {
+	width:119px;
+	height:33px;
+	
+	
+}
 /**
  * Event list and events 
  */
 
+#events {
+	padding:10px;
+	background-image:  url(../images/event_bg.png);
+	height:393px;
+	background-repeat: no-repeat;
+	margin-left:5px;
+
+}
 #events .dtstart {
+	
     font-size: 0.76em;
     color: #333;
+    
 }
 
 #events .duration {
     display: none;
+
 }
 
 #events .vevent h1 {
-    
+   
+}
+
+#events .vevent h1 a{
+	text-decoration: none;
+	color:#000;
+
+}
+#events .vevent ul li {
+	padding-top:20px;
+
 }
