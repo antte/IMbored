@@ -41,11 +41,11 @@ class LastfmAPIInterpreter
     def populateEventFromXml(item)
         event_time = ""
         location = {
-            :street => item.elements["venue/location/street"] !=nil ? item.elements["venue/location/street"].text : "No street",
-            :postal_code => item.elements["venue/location/postalcode"] !=nil ? item.elements["venue/location/postalcode"].text : "No postal code",
-            :county =>item.elements["venue/location/contry"] !=nil ? item.elements["venue/location/contry"].text : "No contry",
-            :city =>item.elements["venue/location/city"] !=nil ? item.elements["venue/location/city"].text : "No city",
-            :contry =>"",
+            :street => item.elements["venue/location/street"] !=nil ? item.elements["venue/location/street"].text : "",
+            :postal_code => item.elements["venue/location/postalcode"] !=nil ? item.elements["venue/location/postalcode"].text : "",
+            :country =>item.elements["venue/location/country"] !=nil ? item.elements["venue/location/country"].text : "",
+            :city =>item.elements["venue/location/city"] !=nil ? item.elements["venue/location/city"].text : "",
+            :county =>"",
             :long =>@@longitude,
             :lat =>@@latitude
         }
@@ -53,12 +53,10 @@ class LastfmAPIInterpreter
           :title => item.elements["title"] !=nil ? item.elements["title"].text : "",
           :description => item.elements["description"] !=nil ? item.elements["description"].text : "",
           :location => location,
-          :event_time => item.elements["startDate"] !=nil ?  item.elements["startDate"].text : ""
+          :event_time => item.elements["startDate"] !=nil ?  Time.parse(item.elements["startDate"].text).to_i : ""
         }
         event = Event.new(option)
         return event     
     end 
       
 end
-
-

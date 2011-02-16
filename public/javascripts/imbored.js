@@ -20,7 +20,7 @@ $(document).ready(function(){
     } 
     
     $.ajax({
-        url: 'http://localhost:3000/events/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
         type: 'GET',
         processData: false,
