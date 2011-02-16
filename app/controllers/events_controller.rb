@@ -2,16 +2,16 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    option  = {
-      :long => params[:long],
-      :lati => params[:lat]
+    options  = {
+      :long => params[:long], 
+      :lat => params[:lat],
+      :distance => params[:distance]
     }
-    
-    @events = Event.all(option)
+  
+    @events = Event.all(options)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @events }
       format.json  { render :json => @events }
     end
   end
@@ -23,7 +23,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @event }
       format.json  { render :json => @events }
     end
   end
@@ -35,7 +34,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @event }
     end
   end
 
@@ -52,10 +50,8 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
   end
