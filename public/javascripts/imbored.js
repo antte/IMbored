@@ -7,7 +7,7 @@ $(document).ready(function(){
     var coordinates = {};
 
     
-	$("#go").click(function(){
+	$("#find_activity").click(function(){
 		get_events(get_geo_cordinates());
 		return false;
 	});
