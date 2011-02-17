@@ -53,6 +53,7 @@ function events_to_html(event) {
     }
     
     console.log(event);
+  
 
     // We append alot of stuff to this wrapping event element
     var event_element =     $("<li>", {class: "vevent"});
@@ -90,3 +91,13 @@ function render_events (events, events_container) {
         events_container.append(events);
     }
 }
+
+
+$("a#spinner")
+    .hide() //hide it initially
+    .ajaxStart(function() {
+        $(this).show();
+    })
+    .ajaxStop(function() {
+      $(this).hide();
+}); 
