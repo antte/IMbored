@@ -3,7 +3,7 @@
  */
 $(document).ready(function(){
 	
-	$("#go").click(function(){
+	$("#find_activity").click(function(){
 		get_events(get_geo_cordinates());
     $("#spinner").bind("ajaxSend", function() {
 	    $(this).show();	
