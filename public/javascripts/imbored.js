@@ -1,7 +1,6 @@
 /*
  * DEPENDENCIES: datetime.js (our own "lib")
  */
-
 $(document).ready(function(){
 
     var coordinates = {};
