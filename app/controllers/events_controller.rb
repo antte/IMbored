@@ -2,19 +2,49 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    option  = {
-      :long => params[:long],
-      :lati => params[:lat]
-    }
-    
-    @events = Event.all(option)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @events }
-      format.json  { render :json => @events }
+    # If the required parameters are missing give 400
+    if params[:long] == nil or params[:lat] == nil then
+        render_error("400")
+        return
+    end
+
+    options  = {
+      :longitude => params[:longitude], 
+      :latitude => params[:latitude],
+      :distance => params[:distance]
+    }
+
+    @events = Event.all(options)
+  
+    if @events.length > 0 then
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render :json => @events }
+      end
+    else
+        # If no events was found
+        render_error("204")
     end
   end
+
+
+  def render_error(code)
+    if code == "204" then
+      respond_to do |format|
+        puts "204!"
+        format.html { render :file => "#{Rails.root}/public/204.html", :status => :no_content }
+        format.json { head :no_content }
+      end
+    elsif code == "400" then
+      respond_to do |format|
+        puts "400!"
+        format.html { render :file => "#{Rails.root}/public/400.html", :status => :bad_request }
+        format.json { head :bad_request }
+      end
+    end   
+  end
+
 
   # GET /events/1
   # GET /events/1.xml
@@ -23,7 +53,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @event }
       format.json  { render :json => @events }
     end
   end
@@ -35,7 +64,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @event }
     end
   end
 
@@ -52,10 +80,8 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
   end
