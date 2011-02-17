@@ -136,10 +136,27 @@ img {
 
 
 #main {
-	width: 320px;
-	height:480px;
-	background-image: url(../images/bg.png);
+    background-image: url(../images/bg_gradient.png);
+    background-repeat: repeat-x;
+    border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -webkit-border-radius: 10px 10px 0 0;
+}
 
+#main header {
+    background-image: url(../images/header_gradient.png);
+    background-color: #000;
+    height: 42px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+#main header > h1 {
+    margin: 0 auto;
+    width: 200px;
+    color: #fff;
+    text-align: center;
 }
 /**
  * Controlpanel
