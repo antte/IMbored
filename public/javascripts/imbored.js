@@ -2,58 +2,38 @@
  * DEPENDENCIES: datetime.js (our own "lib")
  */
 
-$(document).ready(function(){
-	
-    var coordinates = {};
-
-    
-	$("#find_activity").click(function(){
-		get_events(get_geo_cordinates());
-		return false;
-	});
-
-});
-
-function get_events(coordinates) {
-
-    $.ajax({
-        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
-        dataType: 'json',
-        type: 'GET',
-        processData: false,
-        contentType: 'application/json',
-        success: function(data) {
-            var events = [];
-            for(event in data) {
-                events.push(data[event]);
-            }
-            var events_container = $("#events");
-            render_events(events, events_container);
-        }
-    });
-}
-
 /*
- * 
- *
+ * Get events
  */
-function get_geo_cordinates(){
-	var coord = {};
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(
-			function( position) {
-				alert('Geolocation');
-				console.log(position);
-	       		coord.longitude = position.coords.longitud;
-				coord.latitude = position.coords.latitude;
-	    	}, function(error) { 
-	        	alert(error.code);
-	    	},{timeout:1000}
-		);	
-	} else {
-		alert ('no-geolocation');
-	}
-	return coord; 
+function get_events(){
+
+    /*successfully got position*/
+    function success_callback(position) {
+        
+        var coordinates = {};
+
+        coordinates.longitude = position.coords.longitude;
+        coordinates.latitude = position.coords.latitude;
+        
+        render_events_from_api(coordinates);
+
+    }
+
+    /*failure to get position*/
+    function error_callback(error) {
+        coordinates.longitude = 59;
+        coordinates.latitude = 18;
+
+        render_events_from_api(coordinates);
+    }
+    
+    if (navigator.geolocation) {
+        var options = {timeout:1000, maximumAge: 600000};
+        navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
+    } else {
+        error({});
+    }
+
 }
 
 
@@ -71,8 +51,6 @@ function events_to_html(event) {
         return events;
     }
     
-    console.log(event);
-
     // We append alot of stuff to this wrapping event element
     var event_element =     $("<li>", {class: "vevent"});
 
@@ -99,7 +77,7 @@ function events_to_html(event) {
 function render_events (events, events_container) {
 
     events = events_to_html(events);
-
+    
     if (events instanceof Array) {
         for (i in events) {
             // We assume events_container is a jquery object
@@ -108,4 +86,32 @@ function render_events (events, events_container) {
     } else {
         events_container.append(events);
     }
+
 }
+
+function render_events_from_api (coordinates) {
+    $.ajax({
+        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        dataType: 'json',
+        type: 'GET',
+        processData: false,
+        contentType: 'application/json',
+        success: function(data) {
+            var events = [];
+            for(event in data) {
+                events.push(data[event]);
+            }
+            var events_container = $("#events");
+            render_events(events, events_container);
+        }
+    });
+}
+
+$(document).ready(function(){
+    
+    $("#find_activity").click(function(){
+        get_events();
+        return false;
+    });
+
+});
