@@ -24,7 +24,8 @@ function get_events(coordinates) {
             204: function() {
                 render_error("Couldn't find any events",events_container);
             }
-
+    	}
+	});
     /*successfully got position*/
     function success_callback(position) {
         
