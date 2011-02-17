@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   def index
 
     # If the required parameters are missing give 400
-    if params[:long] == nil or params[:lat] == nil then
+    if params[:longitude] == nil or params[:latitude] == nil then
         render_error("400")
         return
     end

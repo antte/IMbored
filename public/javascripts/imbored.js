@@ -2,25 +2,24 @@
  * DEPENDENCIES: datetime.js (our own "lib")
  */
 $(document).ready(function(){
-
-    var coordinates = {};
-
-    if (navigator.geolocation) {
-
-        navigator.geolocation.getCurrentPosition(function() {
-            coordinates.longitude = position.coords.longitude;
-            coordinates.latitude = position.coords.latitude;
-        }, function() { 
-            alert('Could not find location');
-        });
-
-    } 
-
-    $("#go").click(function (){get_events(coordinates)});
+	
+	$("#go").click(function(){
+		get_events(get_geo_cordinates());
+    $("a#spinner")
+    .hide() //hide it initially
+    .ajaxStart(function() {
+        $(this).show();
+    })
+    .ajaxStop(function() {
+      $(this).hide();
+}); 
+		return false;
+	});
 
 });
 
 function get_events(coordinates) {
+
     $.ajax({
         url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
@@ -37,6 +36,30 @@ function get_events(coordinates) {
         }
     });
 }
+
+/*
+ * 
+ *
+ */
+function get_geo_cordinates(){
+	var coord = {};
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(
+			function( position) {
+				alert('Geolocation');
+				console.log(position);
+	       		coord.longitude = position.coords.longitud;
+				coord.latitude = position.coords.latitude;
+	    	}, function(error) { 
+	        	alert(error.code);
+	    	},{timeout:1000}
+		);	
+	} else {
+		alert ('no-geolocation');
+	}
+	return coord; 
+}
+
 
 /*
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
@@ -93,11 +116,3 @@ function render_events (events, events_container) {
 }
 
 
-$("a#spinner")
-    .hide() //hide it initially
-    .ajaxStart(function() {
-        $(this).show();
-    })
-    .ajaxStop(function() {
-      $(this).hide();
-}); 
