@@ -5,14 +5,14 @@ $(document).ready(function(){
 	
 	$("#find_activity").click(function(){
 		get_events(get_geo_cordinates());
-    $("#spinner").bind("ajaxSend", function() {
-	    $(this).show();	
-    }).bind("ajaxStop", function() {
-	    $(this).hide();
-    }).bind("ajaxError", function() {
-	   $(this).hide();
-   });
-		return false;
+        $("#spinner").bind("ajaxSend", function() {
+	        $(this).show();	
+         }).bind("ajaxStop", function() {
+	        $(this).hide();
+         }).bind("ajaxError", function() {
+	        $(this).hide();
+         });
+		    return false;
 	});
 }); 
 
