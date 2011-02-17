@@ -136,61 +136,110 @@ img {
 
 
 #main {
-	width: 320px;
-	height:480px;
-	background-image: url(../images/bg.png);
-
+    background-image: url(../images/bg_gradient.png);
+    background-repeat: repeat-x;
+    border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -webkit-border-radius: 10px 10px 0 0;
 }
+
+#main header {
+    background-image: url(../images/header_gradient.png);
+    background-color: #000;
+    height: 42px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+#main header > h1 {
+    margin: 0 auto;
+    width: 200px;
+    color: #fff;
+    text-align: center;
+}
+
 /**
  * Controlpanel
  */
 
 #controlpanel {
-	text-align: center;
-
+    padding: 10px 0;
 }
 
-
-#go {
-	width:119px;
-	height:33px;
-	
-	
+#find_activity {
+    width:140px;
+    background-image: url('../images/find_activity_gradient.png');
+    background-color: #000;
+    background-repeat: repeat-x;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin: 0 auto;
+    padding: 5px;
 }
+
+#find_activity {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#find_activity:after {
+    color: #fff;
+    content: " >>";
+}
+
+#find_activity:link,
+#find_activity:visited,
+#find_activity:hover,
+#find_activity:active,
+{
+    color: #fff;
+}
+
 /**
  * Event list and events 
  */
 
-#events {
-	padding:10px;
-	background-image:  url(../images/event_bg.png);
-	height:393px;
-	background-repeat: no-repeat;
-	margin-left:5px;
-
+#event_wrapper {
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    padding: 10px;
+    height: 100%;
+    margin: 0 5px;
+    background: #aaa;
 }
+
+#events {
+    overflow-y: scroll;
+}
+
+#events .vevent {
+    border-bottom: 1px dotted #333;
+    padding-bottom: 10px;
+}
+
 #events .dtstart {
-	
+    font-family: Georgia, serif;
     font-size: 0.76em;
     color: #333;
-    
+    background-color: #bbb;
+    padding: 4px;
 }
 
+/* Not very useful for the user to see, duration is mostly to follow the microformats hCalendar spec*/
 #events .duration {
     display: none;
-
 }
 
 #events .vevent h1 {
-   
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-#events .vevent h1 a{
-	text-decoration: none;
-	color:#000;
-
-}
-#events .vevent ul li {
-	padding-top:20px;
-
+#events .vevent p {
+    font-family: Georgia, serif;
 }
