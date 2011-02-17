@@ -156,7 +156,8 @@ img {
 	height:33px;
 	
 	
-}
+}:if expand("%") == ""|browse confirm w|else|confirm w|endif
+
 
 #spinner {
    margin-left:300px;

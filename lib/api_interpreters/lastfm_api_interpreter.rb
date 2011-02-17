@@ -6,7 +6,7 @@ class LastfmAPIInterpreter
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
     
     def get_events(options)
-      return getXMLByGeoParseToEventObjs(options[:long].to_f, options[:lat].to_f, options[:distance].to_i)        
+      return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
 
     private 
@@ -43,8 +43,8 @@ class LastfmAPIInterpreter
             :country =>item.elements["venue/location/country"] !=nil ? item.elements["venue/location/country"].text : "",
             :city =>item.elements["venue/location/city"] !=nil ? item.elements["venue/location/city"].text : "",
             :county =>"",
-            :long =>item.elements["venue/location/geo:point/geo:long"] !=nil ? item.elements["venue/location/geo:point/geo:long"].text : "",
-            :lat =>item.elements["venue/location/geo:point/geo:lat"] !=nil ? item.elements["venue/location/geo:point/geo:lat"].text : ""
+            :longitude =>item.elements["venue/location/geo:point/geo:long"] !=nil ? item.elements["venue/location/geo:point/geo:long"].text : "",
+            :latitude =>item.elements["venue/location/geo:point/geo:lat"] !=nil ? item.elements["venue/location/geo:point/geo:lat"].text : ""
         }
 
         option = {
