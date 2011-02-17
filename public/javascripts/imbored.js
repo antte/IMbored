@@ -73,7 +73,7 @@ function events_to_html(event) {
 function render_events (events, events_container) {
 
     events = events_to_html(events);
-    
+
     if (events instanceof Array) {
         for (i in events) {
             // We assume events_container is a jquery object
@@ -128,9 +128,17 @@ $(document).ready(function(){
         $(this).hide();
     });
 
+
     $("#find_activity").click(function(){
+    
+        // Need to save the spinner so that it doesnt get removed by .empty()
+        var spinner = $("#spinner").clone();
+        $("#events").empty();
+        $("#events").append(spinner);
+
         get_events();
         return false;
+
     });
 
 });
