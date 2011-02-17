@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     options  = {
-      :long => params[:long], 
-      :lat => params[:lat],
+      :longitude => params[:longitude], 
+      :latitude => params[:latitude],
       :distance => params[:distance]
     }
   
