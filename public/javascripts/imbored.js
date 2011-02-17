@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 
 function get_events(coordinates) {
-
+    var events_container = $("#events");
     $.ajax({
         url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
@@ -31,8 +31,13 @@ function get_events(coordinates) {
             for(event in data) {
                 events.push(data[event]);
             }
-            var events_container = $("#events");
             render_events(events, events_container);
+        },
+        statusCode: {
+            204: function() {
+                render_error("Couldn't find any events",events_container);
+            }
+
         }
     });
 }
@@ -110,4 +115,10 @@ function render_events (events, events_container) {
     }
 }
 
+function render_error (error, events_container) {
+    var element = $("<li>");
+    var h1_element = $("<h1>").text(error);
+    element.append(h1_element);
+    events_container.append(element);
+}
 
