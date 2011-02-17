@@ -21,7 +21,7 @@ $(document).ready(function(){
 function get_events(coordinates) {
     var events_container = $("#events");
     $.ajax({
-        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        url: 'http://localhost:3000/events.json/?callback=?&longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
         type: 'GET',
         processData: false,
