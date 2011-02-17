@@ -75,16 +75,15 @@ function events_to_html(event) {
     }  
 
     // We append alot of stuff to this wrapping event element
-    var event_element =     $("<li>", {class: "vevent"});
+    var event_element =     $("<li>").addClass("vevent");
 
-    var h1_element =        $("<h1>", {class: "summary"}).text(event.title);
-    var startdate_element = $("<time>", {
-            class: "dtstart", 
+    var h1_element =        $("<h1>").addClass("summary").text(event.title);
+    var startdate_element = $("<time>").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
-    }).text(format_unixtime(event.event_time, "human"));
+    }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
     
-    var description_element = $("<p>", {class: "description"}).text(event.description);
+    var description_element = $("<p>").addClass("description").text(event.description);
 
     event_element.append(h1_element);
     event_element.append(startdate_element);
