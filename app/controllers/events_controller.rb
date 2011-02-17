@@ -10,8 +10,8 @@ class EventsController < ApplicationController
     end
 
     options  = {
-      :long => params[:long], 
-      :lat => params[:lat],
+      :longitude => params[:longitude], 
+      :latitude => params[:latitude],
       :distance => params[:distance]
     }
 
