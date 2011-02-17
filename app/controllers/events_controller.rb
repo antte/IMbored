@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     if @events.length > 0 then
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render :json => @events }
+        format.json { render :json => @events, :callback => params[:callback] }
       end
     else
         # If no events was found
