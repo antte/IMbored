@@ -106,7 +106,7 @@ function render_events (events, events_container) {
 
 function render_events_from_api (coordinates) {
     $.ajax({
-        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        url: '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
         type: 'GET',
         processData: false,
@@ -138,9 +138,11 @@ function render_error (error, events_container) {
 $(document).ready(function(){
 
     $("#spinner").hide();
+
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
     });
+
     $("#spinner").ajaxStop(function() {
         $(this).hide();
     });

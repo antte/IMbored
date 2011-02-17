@@ -159,12 +159,13 @@ img {
  */ 
 
 #spinner {
+   
    margin-left:300px; 
    text-align: center;
    overflow: auto; 
    margin-top: 50px;
-  
-
+   width: 50px;
+   margin: 0 auto;
 }
 
 #controlpanel {
