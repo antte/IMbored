@@ -2,17 +2,18 @@
  * DEPENDENCIES: datetime.js (our own "lib")
  */
 $(document).ready(function(){
+	$("#spinner").hide();
+	$("#spinner").ajaxSend(function() {   
+        $(this).show();	
+     });
+	$("#spinner").ajaxStop(function() {
+		$(this).hide();
+	})
 	
 	$("#find_activity").click(function(){
 		get_events(get_geo_cordinates());
-        $("#spinner").bind("ajaxSend", function() {
-	        $(this).show();	
-         }).bind("ajaxStop", function() {
-	        $(this).hide();
-         }).bind("ajaxError", function() {
-	        $(this).hide();
-         });
-		    return false;
+        
+	    return false;
 	});
 }); 
 
@@ -46,7 +47,6 @@ function get_geo_cordinates(){
 		navigator.geolocation.getCurrentPosition(
 			function( position) {
 				alert('Geolocation');
-				console.log(position);
 	       		coord.longitude = position.coords.longitud;
 				coord.latitude = position.coords.latitude;
 	    	}, function(error) { 
@@ -72,10 +72,7 @@ function events_to_html(event) {
             events.push(events_to_html(event[e]));
         }
         return events;
-    }
-    
-    console.log(event);
-  
+    }  
 
     // We append alot of stuff to this wrapping event element
     var event_element =     $("<li>", {class: "vevent"});
