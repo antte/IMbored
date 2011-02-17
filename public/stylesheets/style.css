@@ -57,10 +57,6 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-header {
-background-image: url("..images/header.png");
-}
-
 body {
 	line-height: 1;
 }
@@ -163,7 +159,10 @@ img {
  */ 
 
 #spinner {
-   margin-left:300px;
+   margin-left:300px; 
+   text-align: center;
+   overflow: auto;
+   display:none;
 
 }
 

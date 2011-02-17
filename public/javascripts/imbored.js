@@ -5,18 +5,17 @@ $(document).ready(function(){
 	
 	$("#go").click(function(){
 		get_events(get_geo_cordinates());
-    $("a#spinner")
-    .hide() //hide it initially
-    .ajaxStart(function() {
-        $(this).show();
-    })
-    .ajaxStop(function() {
-      $(this).hide();
-}); 
+    $("#spinner").bind("ajaxSend", function() {
+	    $(this).show();	
+    }).bind("ajaxStop", function() {
+	    $(this).hide();
+    }).bind("ajaxError", function() {
+	   $(this).hide();
+   });
 		return false;
 	});
+}); 
 
-});
 
 function get_events(coordinates) {
 
