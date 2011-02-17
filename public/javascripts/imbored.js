@@ -119,9 +119,11 @@ function render_error (error, events_container) {
 $(document).ready(function(){
 
     $("#spinner").hide();
+
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
     });
+
     $("#spinner").ajaxStop(function() {
         $(this).hide();
     });
