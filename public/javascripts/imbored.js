@@ -33,10 +33,7 @@ function get_events(){
     } else {
         error({});
     }
-
 }
-
-
 /*
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
@@ -50,18 +47,17 @@ function events_to_html(event) {
         }
         return events;
     }
-    
-    // We append alot of stuff to this wrapping event element
-    var event_element =     $("<li>", {class: "vevent"});
 
-    var h1_element =        $("<h1>", {class: "summary"}).text(event.title);
-    var startdate_element = $("<time>", {
-            class: "dtstart", 
+    // We append alot of stuff to this wrapping event element
+    var event_element =     $("<li>").addClass("vevent");
+
+    var h1_element =        $("<h1>").addClass("summary").text(event.title);
+    var startdate_element = $("<time>").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
-    }).text(format_unixtime(event.event_time, "human"));
+    }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
     
-    var description_element = $("<p>", {class: "description"}).text(event.description);
+    var description_element = $("<p>").addClass("description").text(event.description);
 
     event_element.append(h1_element);
     event_element.append(startdate_element);
@@ -103,12 +99,33 @@ function render_events_from_api (coordinates) {
             }
             var events_container = $("#events");
             render_events(events, events_container);
+        },
+        statusCode: {
+            204: function() {
+                render_error("Couldn't find any events",events_container);
+            }
+
         }
     });
 }
 
+function render_error (error, events_container) {
+    var element = $("<li>");
+    var h1_element = $("<h1>").text(error);
+    element.append(h1_element);
+    events_container.append(element);
+}
+
 $(document).ready(function(){
-    
+
+    $("#spinner").hide();
+    $("#spinner").ajaxSend(function() {   
+        $(this).show();	
+    });
+    $("#spinner").ajaxStop(function() {
+        $(this).hide();
+    });
+
     $("#find_activity").click(function(){
         get_events();
         return false;
