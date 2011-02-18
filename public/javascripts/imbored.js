@@ -5,35 +5,16 @@
 /*
  * Get events
  */
-function get_events(coordinates) {
-    var events_container = $("#events");
-    $.ajax({
-        url: 'http://localhost:3000/events.json/?callback=?&longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
-        dataType: 'json',
-        type: 'GET',
-        processData: false,
-        contentType: 'application/json',
-        success: function(data) {
-            var events = [];
-            for(event in data) {
-                events.push(data[event]);
-            }
-            render_events(events, events_container);
-        },
-        statusCode: {
-            204: function() {
-                render_error("Couldn't find any events",events_container);
-            }
-    	}
-	});
+function get_events(){
+
     /*successfully got position*/
     function success_callback(position) {
-        
+
         var coordinates = {};
 
         coordinates.longitude = position.coords.longitude;
         coordinates.latitude = position.coords.latitude;
-        
+
         render_events_from_api(coordinates);
 
     }
@@ -45,7 +26,7 @@ function get_events(coordinates) {
 
         render_events_from_api(coordinates);
     }
-    
+
     if (navigator.geolocation) {
         var options = {timeout:1000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
@@ -58,7 +39,7 @@ function get_events(coordinates) {
  * dom element.
  */
 function events_to_html(event) {
-    
+
     if (event instanceof Array) {
         var events = new Array();
         for (e in event) {
@@ -75,7 +56,7 @@ function events_to_html(event) {
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
-    
+
     var description_element = $("<p>").addClass("description").text(event.description);
 
     event_element.append(h1_element);
@@ -83,7 +64,7 @@ function events_to_html(event) {
     event_element.append(description_element);
 
     return event_element;
-    
+
 }
 
 /*
@@ -149,7 +130,7 @@ $(document).ready(function(){
 
 
     $("#find_activity").click(function(){
-    
+
         // Need to save the spinner so that it doesnt get removed by .empty()
         var spinner = $("#spinner").clone();
         $("#events").empty();
