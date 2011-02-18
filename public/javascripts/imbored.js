@@ -1,65 +1,41 @@
 /*
  * DEPENDENCIES: datetime.js (our own "lib")
  */
-$(document).ready(function(){
-	
-	$("#find_activity").click(function(){
-		get_events(get_geo_cordinates());
-    $("#spinner").bind("ajaxSend", function() {
-	    $(this).show();	
-    }).bind("ajaxStop", function() {
-	    $(this).hide();
-    }).bind("ajaxError", function() {
-	   $(this).hide();
-   });
-		return false;
-	});
-}); 
-
-
-function get_events(coordinates) {
-
-    $.ajax({
-        url: 'http://localhost:3000/events.json/?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
-        dataType: 'json',
-        type: 'GET',
-        processData: false,
-        contentType: 'application/json',
-        success: function(data) {
-            var events = [];
-            for(event in data) {
-                events.push(data[event]);
-            }
-            var events_container = $("#events");
-            render_events(events, events_container);
-        }
-    });
-}
 
 /*
- * 
- *
+ * Get events
  */
-function get_geo_cordinates(){
-	var coord = {};
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(
-			function( position) {
-				alert('Geolocation');
-				console.log(position);
-	       		coord.longitude = position.coords.longitud;
-				coord.latitude = position.coords.latitude;
-	    	}, function(error) { 
-	        	alert(error.code);
-	    	},{timeout:1000}
-		);	
-	} else {
-		alert ('no-geolocation');
-	}
-	return coord; 
+function get_events(){
+
+    /*successfully got position*/
+    function success_callback(position) {
+        
+        var coordinates = {};
+
+        coordinates.longitude = position.coords.longitude;
+        coordinates.latitude = position.coords.latitude;
+        
+        render_events_from_api(coordinates);
+
+    }
+
+    /*failure to get position*/
+    function error_callback(error) {
+
+        var coordinates = {};
+        
+        // TODO: Make a more useful error message to the user.
+        alert("We couldn't find your position, sorry.");
+        
+    }
+    
+    if (navigator.geolocation) {
+        var options = {timeout:1000, maximumAge: 600000};
+        navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
+    } else {
+        error_callback({});
+    }
 }
-
-
 /*
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
@@ -73,21 +49,17 @@ function events_to_html(event) {
         }
         return events;
     }
-    
-    console.log(event);
-  
 
     // We append alot of stuff to this wrapping event element
-    var event_element =     $("<li>", {class: "vevent"});
+    var event_element =     $("<li>").addClass("vevent");
 
-    var h1_element =        $("<h1>", {class: "summary"}).text(event.title);
-    var startdate_element = $("<time>", {
-            class: "dtstart", 
+    var h1_element =        $("<h1>").addClass("summary").text(event.title);
+    var startdate_element = $("<time>").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
-    }).text(format_unixtime(event.event_time, "human"));
+    }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
     
-    var description_element = $("<p>", {class: "description"}).text(event.description);
+    var description_element = $("<p>").addClass("description").text(event.description);
 
     event_element.append(h1_element);
     event_element.append(startdate_element);
@@ -112,6 +84,63 @@ function render_events (events, events_container) {
     } else {
         events_container.append(events);
     }
+
 }
 
+function render_events_from_api (coordinates) {
+    $.ajax({
+        url: '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        dataType: 'json',
+        type: 'GET',
+        processData: false,
+        contentType: 'application/json',
+        success: function(data) {
+            var events = [];
+            for(event in data) {
+                events.push(data[event]);
+            }
+            var events_container = $("#events");
+            render_events(events, events_container);
+        },
+        statusCode: {
+            204: function() {
+                render_error("Couldn't find any events",events_container);
+            }
 
+        }
+    });
+}
+
+function render_error (error, events_container) {
+    var element = $("<li>");
+    var h1_element = $("<h1>").text(error);
+    element.append(h1_element);
+    events_container.append(element);
+}
+
+$(document).ready(function(){
+
+    $("#spinner").hide();
+
+    $("#spinner").ajaxSend(function() {   
+        $(this).show();	
+    });
+
+    $("#spinner").ajaxStop(function() {
+        $(this).hide();
+    });
+
+
+    $("#find_activity").click(function(){
+    
+        // Need to save the spinner so that it doesnt get removed by .empty()
+        var spinner = $("#spinner").clone();
+        $("#events").empty();
+        $("#events").append(spinner);
+
+        get_events();
+        return false;
+
+    });
+
+});
