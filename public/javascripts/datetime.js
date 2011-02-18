@@ -24,11 +24,11 @@ function format_unixtime(unixtime, format) {
     format = format.replace(RegExp("DD"  ,"g"),  human_day(date));
     format = format.replace(RegExp("MM"  ,"g"),  human_month(date));
     format = format.replace(RegExp("ii"  ,"g"),  addZero(date.getMinutes().toString()));
-    format = format.replace(RegExp("hh"  ,"g"),  addZero(date.getHours().toString()));
+    format = format.replace(RegExp("hh"  ,"g"),  addZero((date.getHours() -1).toString()));
     
     return format;
 
-}
+}                                                                                                                        
 
 function addZero(num)
 {
