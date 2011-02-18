@@ -142,7 +142,6 @@ img {
 #main header {
     background-image: url(../images/header_gradient.png);
     background-color: #000;
-    height: 42px;
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -150,9 +149,9 @@ img {
 
 #main header > h1 {
     margin: 0 auto;
-    width: 200px;
     color: #fff;
     text-align: center;
+    font-size: 2.5em;
 }
 /**
  * Controlpanel
@@ -168,6 +167,11 @@ img {
 }
 
 #find_activity {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    margin: 0 auto;
+    text-align: center;
     width:140px;
     background-image: url('../images/find_activity_gradient.png');
     background-color: #000;
@@ -176,15 +180,8 @@ img {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     margin: 0 auto;
-    padding: 5px;
-}
-
-#find_activity {
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    margin: 0 auto;
-    text-align: center;
+    padding: 5px 10px;
+    font-size: 20px;
 }
 
 #find_activity:after {
@@ -212,10 +209,6 @@ img {
     height: 100%;
     margin: 0 5px;
     background: #aaa;
-}
-
-#events {
-    overflow-y: scroll;
 }
 
 #events .vevent {
