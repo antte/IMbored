@@ -21,17 +21,19 @@ function get_events(){
 
     /*failure to get position*/
     function error_callback(error) {
-        coordinates.longitude = 59;
-        coordinates.latitude = 18;
 
-        render_events_from_api(coordinates);
+        var coordinates = {};
+        
+        // TODO: Make a more useful error message to the user.
+        alert("We couldn't find your position, sorry.");
+        
     }
 
     if (navigator.geolocation) {
         var options = {timeout:1000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
     } else {
-        error({});
+        error_callback({});
     }
 }
 /*
