@@ -90,6 +90,8 @@ function render_events (events, events_container) {
 
 function render_events_from_api (options) {
 
+    var events_container = $("#events");
+
     var request_url = '/events.json?longitude=' + options.longitude + '&latitude=' + options.latitude;
     
     if (is_int(options.distance)) {
@@ -107,7 +109,6 @@ function render_events_from_api (options) {
             for(event in data) {
                 events.push(data[event]);
             }
-            var events_container = $("#events");
             render_events(events, events_container);
         },
         statusCode: {

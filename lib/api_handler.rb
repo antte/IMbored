@@ -2,6 +2,7 @@ class APIHandler
 
     @@api_interpreters = Array.new
     @@api_interpreters.push(LastfmAPIInterpreter.new)
+    @@api_interpreters.push(DebaserAPIInterpreter.new)
 
     def APIHandler.get_events(options)
         
@@ -9,6 +10,11 @@ class APIHandler
         @@api_interpreters.each do |api_interpreter|
             events = events | api_interpreter.get_events(options) #pipe = combine and remove duples in array
         end
+
+        # Sort events by time
+
+        events.sort! { |a,b| a.event_time <=> b.event_time}
+
         return events
 
     end
