@@ -17,6 +17,8 @@ function get_events(){
 
         render_events_from_api(coordinates);
 
+        $("#find_activity").removeClass('loading');
+
     }
 
     /*failure to get position*/
@@ -138,6 +140,31 @@ function render_error (error, events_container) {
     events_container.append(element);
 }
 
+/*
+ * Made to be trigged by an event
+ * Retrieves activities and displays them to the user
+ */
+function find_activities (event) {
+
+    // Prevent default from happening when clicking element
+    event.preventDefault();
+    
+    // To prevent activities to load while already loading
+    if ($("#find_activity").hasClass('loading')) {
+        return;
+    }
+
+    // Need to save the spinner so that it doesnt get removed by .empty()
+    var spinner = $("#spinner").clone();
+    $("#events").empty();
+    $("#events").append(spinner);
+
+    get_events();
+
+    $("#find_activity").addClass("loading");
+
+}
+
 $(document).ready(function(){
 
     $("#spinner").hide();
@@ -150,17 +177,6 @@ $(document).ready(function(){
         $(this).hide();
     });
 
-
-    $("#find_activity").click(function(){
-
-        // Need to save the spinner so that it doesnt get removed by .empty()
-        var spinner = $("#spinner").clone();
-        $("#events").empty();
-        $("#events").append(spinner);
-
-        get_events();
-        return false;
-
-    });
+    $("#find_activity").click(find_activities);
 
 });
