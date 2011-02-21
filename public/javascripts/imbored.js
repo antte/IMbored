@@ -83,6 +83,8 @@ function render_events (events, events_container) {
         events_container.append(events);
     }
 
+    $("#find_activity").removeClass("loading");
+
 }
 
 function render_events_from_api (options) {
@@ -168,14 +170,14 @@ function find_activities (event) {
         return;
     }
 
+    $("#find_activity").addClass('loading');
+
     // Need to save the spinner so that it doesnt get removed by .empty()
     var spinner = $("#spinner").clone();
     $("#events").empty();
     $("#events").append(spinner);
 
     get_events();
-
-    $("#find_activity").addClass("loading");
 
 }
 
