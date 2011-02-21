@@ -69,6 +69,7 @@ function events_to_html(event) {
 
 }
 
+
 /*
  * Jquery append items to the events_container.
  */
@@ -87,10 +88,18 @@ function render_events (events, events_container) {
 
 }
 
-function render_events_from_api (coordinates) {
+function render_events_from_api (options) {
+
     var events_container = $("#events");
+
+    var request_url = '/events.json?longitude=' + options.longitude + '&latitude=' + options.latitude;
+    
+    if (is_int(options.distance)) {
+        request_url += "&distance=" + options.distance.toString();
+    }
+    
     $.ajax({
-        url: '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+        url: request_url,
         dataType: 'json',
         type: 'GET',
         processData: false,
@@ -109,6 +118,17 @@ function render_events_from_api (coordinates) {
 
         }
     });
+}
+
+/*
+ * Checks if a variable is an integer
+ */
+function is_int(value){
+    if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function render_error (error, events_container) {
