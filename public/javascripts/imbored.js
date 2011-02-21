@@ -10,10 +10,12 @@ function get_events(){
     /*successfully got position*/
     function success_callback(position) {
 
-        var coordinates = {};
+        var options = {};
 
-        coordinates.longitude = position.coords.longitude;
-        coordinates.latitude = position.coords.latitude;
+        options.longitude = position.coords.longitude;
+        options.latitude = position.coords.latitude;
+		options.distance = parseInt(get_cookie("settings_distance"));
+        render_events_from_api(options);
 
         render_events_from_api(coordinates);
 
@@ -24,7 +26,7 @@ function get_events(){
     /*failure to get position*/
     function error_callback(error) {
 
-        var coordinates = {};
+        var options = {};
         
         // TODO: Make a more useful error message to the user.
         alert("We couldn't find your position, sorry.");
@@ -140,6 +142,25 @@ function render_error (error, events_container) {
     events_container.append(element);
 }
 
+function set_cookie(cookie_name,value,ex_days){
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + ex_days);
+	var c_value=escape(value) + ((ex_days==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie= cookie_name + "=" + c_value;
+}
+
+function get_cookie(cookie_name){
+    var i,x,y,all_cookies=document.cookie.split(";");
+    for (i=0;i<all_cookies.length;i++){
+        x=all_cookies[i].substr(0,all_cookies[i].indexOf("="));
+        y=all_cookies[i].substr(all_cookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==cookie_name){
+            return unescape(y);
+        }
+    }
+}
+
 /*
  * Made to be trigged by an event
  * Retrieves activities and displays them to the user
@@ -167,8 +188,11 @@ function find_activities (event) {
 
 $(document).ready(function(){
 
-    $("#spinner").hide();
-
+    //INIT
+	$("#spinner").hide();
+    $("#settings").hide();
+	
+	
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
     });
@@ -178,5 +202,28 @@ $(document).ready(function(){
     });
 
     $("#find_activity").click(find_activities);
-
+	
+	$("a.settings").click(function(){
+		$("section#settings").show();
+		$("#main").hide();
+		return false
+	});
+	
+	$("settings_back").change(function(){
+		alert("changed");
+	});
+	
+	
+	$("#settings_back").click(function(){
+	    if ($("#settings_distance").val()) {
+			var now = new Date();
+			var expires = now.getTime()+2592000000;  
+			set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));			
+	    }
+		console.log( document.cookie);
+		$("#settings").hide();
+		$("#main").show();
+		$("#find_activity").click();
+		return false
+	});
 });

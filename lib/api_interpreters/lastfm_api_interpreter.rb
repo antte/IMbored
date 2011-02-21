@@ -4,7 +4,6 @@ class LastfmAPIInterpreter
     include REXML
     include ActionView::Helpers::SanitizeHelper
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
-    
     def get_events(options)
       return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
