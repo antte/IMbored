@@ -69,6 +69,7 @@ function events_to_html(event) {
 
 }
 
+
 /*
  * Jquery append items to the events_container.
  */

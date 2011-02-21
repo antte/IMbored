@@ -24,7 +24,7 @@
             </header>
             <section id="controlpanel">
             <a id="find_activity" href="#">Find Activity</a>
-			<a id="settings" href="#">Settings</a>
+			<a class="settings" href="#">Settings</a>
             </section>
             <section id="event_wrapper">
                 <ul id="events">
@@ -32,15 +32,16 @@
                         <a href="#"><img src="images/ajax-loader.gif" alt="loading" id="spinner" /></a>
                     </figure>
                 </ul>
-            <section>
+            </section>
         </section>
         <section id="settings">
-		    <a id="settings_back" href="#">Back</a>
-		    <form id="settings_form">
-			    <label for="">
-			    <label for="distance">Distance:</label>
-			    <input type="range" name="settings_distance" min="0" max="500" />
-		    </form>
+	        <a id="settings_back" href="#">Back</a>  
+		        <form id="settings_form">
+			        <label for="">
+			        <label for="distance">Distance:</label>
+			        <input type="range" name="settings_distance" min="0" max="500" value="0"/>
+			        <span id="range">0</span>
+		        </form>
 		</section>
     </body>
 </html>
