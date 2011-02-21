@@ -267,8 +267,8 @@ img {
 } 
 
 #main {
-	display: none;
-   
+	/**display: none;
+    **/
 }
 
 input:not(:focus), textarea:not(:focus)
