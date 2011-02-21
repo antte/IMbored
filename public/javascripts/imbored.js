@@ -88,6 +88,7 @@ function render_events (events, events_container) {
 }
 
 function render_events_from_api (coordinates) {
+    var events_container = $("#events");
     $.ajax({
         url: '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
         dataType: 'json',
@@ -99,7 +100,6 @@ function render_events_from_api (coordinates) {
             for(event in data) {
                 events.push(data[event]);
             }
-            var events_container = $("#events");
             render_events(events, events_container);
         },
         statusCode: {
