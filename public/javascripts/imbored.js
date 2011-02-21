@@ -1,28 +1,25 @@
-/*
- * DEPENDENCIES: datetime.js (our own "lib")
- */
-
-/*
- * Get events
- */
 function get_events(){
 
     /*successfully got position*/
     function success_callback(position) {
 
-        var coordinates = {};
+        var options = {};
 
-        coordinates.longitude = position.coords.longitude;
-        coordinates.latitude = position.coords.latitude;
+        options.longitude = position.coords.longitude;
+        options.latitude = position.coords.latitude;
+		options.distance = parseInt(get_cookie("settings_distance"));
+        render_events_from_api(options);
 
         render_events_from_api(coordinates);
+
+        $("#find_activity").removeClass('loading');
 
     }
 
     /*failure to get position*/
     function error_callback(error) {
 
-        var coordinates = {};
+        var options = {};
         
         // TODO: Make a more useful error message to the user.
         alert("We couldn't find your position, sorry.");
@@ -68,6 +65,7 @@ function events_to_html(event) {
     return event_element;
 
 }
+
 
 /*
  * Jquery append items to the events_container.
@@ -137,9 +135,56 @@ function render_error (error, events_container) {
     events_container.append(element);
 }
 
+function set_cookie(cookie_name,value,ex_days){
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + ex_days);
+	var c_value=escape(value) + ((ex_days==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie= cookie_name + "=" + c_value;
+}
+
+function get_cookie(cookie_name){
+    var i,x,y,all_cookies=document.cookie.split(";");
+    for (i=0;i<all_cookies.length;i++){
+        x=all_cookies[i].substr(0,all_cookies[i].indexOf("="));
+        y=all_cookies[i].substr(all_cookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==cookie_name){
+            return unescape(y);
+        }
+    }
+}
+
+/*
+ * Made to be trigged by an event
+ * Retrieves activities and displays them to the user
+ */
+function find_activities (event) {
+
+    // Prevent default from happening when clicking element
+    event.preventDefault();
+    
+    // To prevent activities to load while already loading
+    if ($("#find_activity").hasClass('loading')) {
+        return;
+    }
+
+    // Need to save the spinner so that it doesnt get removed by .empty()
+    var spinner = $("#spinner").clone();
+    $("#events").empty();
+    $("#events").append(spinner);
+
+    get_events();
+
+    $("#find_activity").addClass("loading");
+
+}
+
 $(document).ready(function(){
 
-    $("#spinner").hide();
+    //INIT
+	$("#spinner").hide();
+    $("#settings").hide();
+
 
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
@@ -149,17 +194,28 @@ $(document).ready(function(){
         $(this).hide();
     });
 
+    $("#find_activity").click(find_activities);
 
-    $("#find_activity").click(function(){
+	$("a.settings").click(function(){
+		$("section#settings").show();
+		$("#main").hide();
+		return false
+	});
 
-        // Need to save the spinner so that it doesnt get removed by .empty()
-        var spinner = $("#spinner").clone();
-        $("#events").empty();
-        $("#events").append(spinner);
+	$("settings_form").submit(function(event){
+		event.preventDefault();
+	});
 
-        get_events();
-        return false;
-
-    });
-
+	$("#settings_back").click(function(){
+	    if ($("#settings_distance").val()) {
+			var now = new Date();
+			var expires = now.getTime()+2592000000;  
+			set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));			
+	    }
+		console.log( document.cookie);
+		$("#settings").hide();
+		$("#main").show();
+		$("#find_activity").click();
+		return false
+	});
 });
