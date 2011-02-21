@@ -208,11 +208,10 @@ $(document).ready(function(){
 		$("#main").hide();
 		return false
 	});
-	
-	$("settings_back").change(function(){
-		alert("changed");
+		
+	$("settings_form").submit(function(event){
+		event.preventDefault();
 	});
-	
 	
 	$("#settings_back").click(function(){
 	    if ($("#settings_distance").val()) {
