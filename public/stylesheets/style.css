@@ -256,6 +256,7 @@ img {
 #settings_back {
 	text-decoration: none;
 	font-size: 30px;
+	font-family: Helvetica neu, sans-serif, Arial;
 }
 
 #settings_form {
@@ -276,7 +277,7 @@ input:not(:focus), textarea:not(:focus)
 
 /**
  * Event list and events 
- */
+ */ 
 
 #event_wrapper {
     border-radius: 15px;
