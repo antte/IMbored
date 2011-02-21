@@ -22,6 +22,11 @@ class LastfmAPIInterpreter
         api_key = @@apiKey #(Required) : A Last.fm API key.
 
         urlString = "http://ws.audioscrobbler.com/2.0/?method=geo.getevents&lat="+lat.to_s+"&long="+long.to_s+"&api_key="+api_key 
+
+        if dist != nil then
+            urlString += "&distance=" + dist.to_s
+        end
+
         url = URI.parse(urlString)
         req = Net::HTTP::Get.new(url.path+'?'+url.query)
         res = Net::HTTP.start(url.host, url.port) {|http|
@@ -51,7 +56,6 @@ class LastfmAPIInterpreter
           :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
           :location => location,
           :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : ""
-          :category => "Music"
         }
         event = Event.new(option)
         return event     

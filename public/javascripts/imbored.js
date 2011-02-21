@@ -9,13 +9,12 @@ function get_events(){
 
     /*successfully got position*/
     function success_callback(position) {
-        
+
         var coordinates = {};
 
         coordinates.longitude = position.coords.longitude;
         coordinates.latitude = position.coords.latitude;
-        coordinates.distance = get_cookie("settings_distance");
-       
+
         render_events_from_api(coordinates);
 
     }
@@ -29,7 +28,7 @@ function get_events(){
         alert("We couldn't find your position, sorry.");
         
     }
-    
+
     if (navigator.geolocation) {
         var options = {timeout:1000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
@@ -42,7 +41,7 @@ function get_events(){
  * dom element.
  */
 function events_to_html(event) {
-    
+
     if (event instanceof Array) {
         var events = new Array();
         for (e in event) {
@@ -59,7 +58,7 @@ function events_to_html(event) {
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
-    
+
     var description_element = $("<p>").addClass("description").text(event.description);
 
     event_element.append(h1_element);
@@ -67,7 +66,7 @@ function events_to_html(event) {
     event_element.append(description_element);
 
     return event_element;
-    
+
 }
 
 /*
@@ -161,7 +160,7 @@ $(document).ready(function(){
     });
 
     $("#find_activity").click(function(){
-    
+
         // Need to save the spinner so that it doesnt get removed by .empty()
         var spinner = $("#spinner").clone();
         $("#events").empty();

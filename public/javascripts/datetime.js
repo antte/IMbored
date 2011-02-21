@@ -28,7 +28,7 @@ function format_unixtime(unixtime, format) {
     
     return format;
 
-}
+}                                                                                                                        
 
 function addZero(num)
 {
@@ -87,7 +87,7 @@ function human_day (date) {
     var ending = "th";
 
     var day = date.getDate();
-
+  
     if (
         day == 1 ||
         day == 21 ||
