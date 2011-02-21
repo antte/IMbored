@@ -14,7 +14,8 @@ function get_events(){
 
         coordinates.longitude = position.coords.longitude;
         coordinates.latitude = position.coords.latitude;
-        
+        coordinates.distance = get_cookie("settings_distance");
+       
         render_events_from_api(coordinates);
 
     }
@@ -88,8 +89,15 @@ function render_events (events, events_container) {
 }
 
 function render_events_from_api (coordinates) {
-    $.ajax({
-        url: '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude,
+	var url = "";
+	url = '/events.json?longitude=' + coordinates.longitude + '&latitude=' + coordinates.latitude
+	if (cordinates.distance){
+		url += url + "&distance="+ cordinates.distance
+    }
+	
+
+	$.ajax({
+        url: 
         dataType: 'json',
         type: 'GET',
         processData: false,
@@ -118,10 +126,32 @@ function render_error (error, events_container) {
     events_container.append(element);
 }
 
+function set_cookie(cookie_name,value,ex_days){
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + ex_days);
+	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie= cookie_name + "=" + c_value;
+}
+
+function get_cookie(cookie_name){
+    var i,x,y,all_cookies=document.cookie.split(";");
+    for (i=0;i<all_cookies.length;i++){
+        x=all_cookies[i].substr(0,all_cookies[i].indexOf("="));
+        y=all_cookies[i].substr(all_cookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==cookie_name){
+            return unescape(y);
+        }
+    }
+}
+
 $(document).ready(function(){
 
-    $("#spinner").hide();
-
+    //INIT
+	$("#spinner").hide();
+    $("#settings").hide();
+	
+	
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
     });
@@ -129,7 +159,6 @@ $(document).ready(function(){
     $("#spinner").ajaxStop(function() {
         $(this).hide();
     });
-
 
     $("#find_activity").click(function(){
     
@@ -142,5 +171,20 @@ $(document).ready(function(){
         return false;
 
     });
+	
+	$("#settings").click(function(){
+		$("#settings").show();
+		$("#main").hide();
+		return false
+	});
+	
+	$("#settings_back").click(function(){
+		if ($("#settings_distance").val()) { 
+			set_cookie("settings_distance",$("#settings_distance").val(),30);			
+		}
+		$("#settings").hide();
+		$("#main").show();
+		return false
+	});
 
 });

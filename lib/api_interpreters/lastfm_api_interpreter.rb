@@ -4,7 +4,6 @@ class LastfmAPIInterpreter
     include REXML
     include ActionView::Helpers::SanitizeHelper
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
-    
     def get_events(options)
       return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
@@ -51,7 +50,8 @@ class LastfmAPIInterpreter
           :title => item.elements["title"] !=nil ? item.elements["title"].text : "",
           :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
           :location => location,
-          :event_time => item.elements["startDate"] !=nil ?  Time.parse(item.elements["startDate"].text).to_i : ""
+          :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : ""
+          :category => "Music"
         }
         event = Event.new(option)
         return event     
