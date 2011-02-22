@@ -202,6 +202,15 @@ img {
     color: #fff;
 }
 
+#logo {
+	
+	float:left;
+    display:block;
+	overflow: hidden;
+	
+	
+}
+
 .settings {
     font-family:'Arial',sans-serif;
 	text-decoration:none; 
