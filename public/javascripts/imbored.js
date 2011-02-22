@@ -7,7 +7,9 @@
  */
 function get_events(){
 
-    /*successfully got position*/
+    $("#events").empty();
+    
+	/*successfully got position*/
     function success_callback(position) {
 
         var options = {};
@@ -28,9 +30,6 @@ function get_events(){
         
         // TODO: Make a more useful error message to the user.
         alert("We couldn't find your position, sorry.");
-        
-        // If we can't get position we wont be loading anything.
-        $("#find_activity").removeClass('loading');
         
     }
 
@@ -64,12 +63,12 @@ function events_to_html(event) {
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
 
-    var description_element = $("<p>").addClass("venue").text(event.location.venue);
-
-    event_element.append(h1_element);
+    var venue_element = $("<p>").addClass("venue").text(event.location.venue);
+	 
+	event_element.append(h1_element);
     event_element.append(startdate_element);
-    event_element.append(description_element);
-
+    event_element.append(venue_element);
+	event_element.wrapInner("<a href='#'>");
     return event_element;
 
 }
@@ -90,9 +89,7 @@ function render_events (events, events_container) {
     } else {
         events_container.append(events);
     }
-
-    $("#find_activity").removeClass("loading");
-
+	$("ul").listview("refresh");
 }
 
 function render_events_from_api (options) {
@@ -168,50 +165,11 @@ function get_cookie(cookie_name){
  * Made to be trigged by an event
  * Retrieves activities and displays them to the user
  */
-function find_activities (event) {
-
-    // Prevent default from happening when clicking element
-    event.preventDefault();
-    
-    // To prevent activities to load while already loading
-    if ($("#find_activity").hasClass('loading')) {
-        return;
-    }
-
-    $("#find_activity").addClass('loading');
-
-    // Need to save the spinner so that it doesnt get removed by .empty()
-    var spinner = $("#spinner").clone();
-    $("#events").empty();
-    $("#events").append(spinner);
-
-    get_events();
-
-}
 
 $(document).ready(function(){
 
-    //INIT
-	$("#spinner").hide();
-    $("#settings").hide();
+    get_events();
 	
-	
-    $("#spinner").ajaxSend(function() {   
-        $(this).show();	
-    });
-
-    $("#spinner").ajaxStop(function() {
-        $(this).hide();
-    });
-
-    find_activities();
-	
-	$("a.settings").click(function(){
-		$("section#settings").show();
-		$("#main").hide();
-		return false
-	});
-		
 	$("#settings_form").submit(function(event){
 		event.preventDefault();
 	});
