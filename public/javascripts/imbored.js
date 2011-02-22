@@ -204,7 +204,7 @@ $(document).ready(function(){
         $(this).hide();
     });
 
-    $("#find_activity").click(find_activities);
+    find_activities();
 	
 	$("a.settings").click(function(){
 		$("section#settings").show();
