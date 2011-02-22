@@ -1,5 +1,5 @@
-class LastfmAPIInterpreter
     require 'net/http'
+class LastfmAPIInterpreter
     require "rexml/document"
     include REXML
     include ActionView::Helpers::SanitizeHelper
@@ -34,7 +34,10 @@ class LastfmAPIInterpreter
         }
         doc = Document.new( res.body )
         doc.elements.each("lfm/events/event") do |event|
-          @events.push populateEventFromXml(event) if populateEventFromXml(event) 
+          event = populateEventFromXml(event)
+          if event then
+            @events.push event
+          end
         end
         return @events
     end
@@ -48,7 +51,8 @@ class LastfmAPIInterpreter
             :city =>item.elements["venue/location/city"] !=nil ? item.elements["venue/location/city"].text : "",
             :county =>"",
             :longitude =>item.elements["venue/location/geo:point/geo:long"] !=nil ? item.elements["venue/location/geo:point/geo:long"].text : "",
-            :latitude =>item.elements["venue/location/geo:point/geo:lat"] !=nil ? item.elements["venue/location/geo:point/geo:lat"].text : ""
+            :latitude =>item.elements["venue/location/geo:point/geo:lat"] !=nil ? item.elements["venue/location/geo:point/geo:lat"].text : "",
+            :venue => item.elements["venue/name"] != nil ? item.elements["venue/name"].text : ""
         }
 
         option = {

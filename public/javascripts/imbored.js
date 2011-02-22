@@ -1,3 +1,10 @@
+/*
+ * DEPENDENCIES: datetime.js (our own "lib")
+ */
+
+/*
+ * Get events
+ */
 function get_events(){
 
     /*successfully got position*/
@@ -11,9 +18,7 @@ function get_events(){
         render_events_from_api(options);
 
         render_events_from_api(coordinates);
-
-        $("#find_activity").removeClass('loading');
-
+        
     }
 
     /*failure to get position*/
@@ -24,10 +29,13 @@ function get_events(){
         // TODO: Make a more useful error message to the user.
         alert("We couldn't find your position, sorry.");
         
+        // If we can't get position we wont be loading anything.
+        $("#find_activity").removeClass('loading');
+        
     }
 
     if (navigator.geolocation) {
-        var options = {timeout:1000, maximumAge: 600000};
+        var options = {timeout:5000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
     } else {
         error_callback({});
@@ -186,8 +194,8 @@ $(document).ready(function(){
     //INIT
 	$("#spinner").hide();
     $("#settings").hide();
-
-
+	
+	
     $("#spinner").ajaxSend(function() {   
         $(this).show();	
     });
@@ -197,17 +205,17 @@ $(document).ready(function(){
     });
 
     $("#find_activity").click(find_activities);
-
+	
 	$("a.settings").click(function(){
 		$("section#settings").show();
 		$("#main").hide();
 		return false
 	});
-
-	$("settings_form").submit(function(event){
+		
+	$("#settings_form").submit(function(event){
 		event.preventDefault();
 	});
-
+	
 	$("#settings_back").click(function(){
 	    if ($("#settings_distance").val()) {
 			var now = new Date();
@@ -217,7 +225,6 @@ $(document).ready(function(){
 		console.log( document.cookie);
 		$("#settings").hide();
 		$("#main").show();
-		$("#find_activity").click();
 		return false
 	});
 });
