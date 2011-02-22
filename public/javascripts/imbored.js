@@ -209,7 +209,7 @@ $(document).ready(function(){
 		return false
 	});
 		
-	$("settings_form").submit(function(event){
+	$("#settings_form").submit(function(event){
 		event.preventDefault();
 	});
 	
