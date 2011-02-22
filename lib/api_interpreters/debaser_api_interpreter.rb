@@ -37,6 +37,7 @@ class DebaserAPIInterpreter
         }
 
         doc = Document.new( res.body )
+        puts doc
         doc.elements.each("xml/event") do |event|
             if event.elements["eventstatus"].text != "Inställt" then
                 @events.push populateEventFromXml(event) if populateEventFromXml(event) 
@@ -51,7 +52,8 @@ class DebaserAPIInterpreter
         event_time = ""
 
         venue_name = item.elements["venueslug"]
-        if( venue_name == "malmo" ) then
+
+        if( venue_name.text == "malmo" ) then
             location = {
                 :street => "Norra Parkgatan 2",
                 :postal_code => "214 22",
@@ -59,9 +61,10 @@ class DebaserAPIInterpreter
                 :city => "Malmö",
                 :county =>"Malmö",
                 :longitude => "13.012906",
-                :latitude => "55.595179"
+                :latitude => "55.595179",
+                :venue => "Debaser Malmö"
             }
-        elsif( venue_name == "slussen" ) then
+        elsif( venue_name.text == "slussen" ) then
             location = {
                 :street => "Karl Johans Torg 1",
                 :postal_code => "111 30",
@@ -69,9 +72,10 @@ class DebaserAPIInterpreter
                 :city => "Stockholm",
                 :county =>"Stockholm",
                 :longitude => "18.073346",
-                :latitude => "59.321891"
+                :latitude => "59.321891",
+                :venue => "Debaser Slussen"
             }
-        elsif( venue_name == "humlegarden" ) then
+        elsif( venue_name.text == "humlegarden" ) then
             location = {
                 :street => "Sturegatan Kungliga Humlegården 1",
                 :postal_code => "114 35",
@@ -79,9 +83,10 @@ class DebaserAPIInterpreter
                 :city => "Stockholm",
                 :county =>"Stockholm",
                 :longitude => "18.072981",
-                :latitude => "59.339983"
+                :latitude => "59.339983",
+                :venue => "Debaser Humlegården"
             }
-        elsif( venue_name == "medis" ) then
+        elsif( venue_name.text == "medis" ) then
             location = {
                 :street => "Medborgarplatsen 8",
                 :postal_code => "118 26",
@@ -89,7 +94,8 @@ class DebaserAPIInterpreter
                 :city => "Stockholm",
                 :county =>"Stockholm",
                 :longitude => "18.072981",
-                :latitude => "59.339983"
+                :latitude => "59.339983",
+                :venue => "Debaser Medis"
             }
         end
 
