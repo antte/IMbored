@@ -6,19 +6,10 @@ class APIHandler
 
     def APIHandler.get_events(options)
         
-        threads = []        
         events = []
         @@api_interpreters.each do |api_interpreter|
-            threads << Thread.new(api_interpreter) do |api|
-                puts threads
-                events = events | api.get_events(options) #pipe = combine and remove duples in array
-            end
+            events = events | api_interpreter.get_events(options) #pipe = combine and remove duples in array
         end
-
-        threads.each do |thread| 
-            thread.join 
-        end
-
         # Sort events by time
 
         events.sort! { |a,b| a.event_time <=> b.event_time}
