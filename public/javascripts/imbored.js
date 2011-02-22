@@ -18,9 +18,7 @@ function get_events(){
         render_events_from_api(options);
 
         render_events_from_api(coordinates);
-
-        $("#find_activity").removeClass('loading');
-
+        
     }
 
     /*failure to get position*/
@@ -31,10 +29,13 @@ function get_events(){
         // TODO: Make a more useful error message to the user.
         alert("We couldn't find your position, sorry.");
         
+        // If we can't get position we wont be loading anything.
+        $("#find_activity").removeClass('loading');
+        
     }
 
     if (navigator.geolocation) {
-        var options = {timeout:1000, maximumAge: 600000};
+        var options = {timeout:5000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
     } else {
         error_callback({});
@@ -89,6 +90,8 @@ function render_events (events, events_container) {
     } else {
         events_container.append(events);
     }
+
+    $("#find_activity").removeClass("loading");
 
 }
 
@@ -175,14 +178,14 @@ function find_activities (event) {
         return;
     }
 
+    $("#find_activity").addClass('loading');
+
     // Need to save the spinner so that it doesnt get removed by .empty()
     var spinner = $("#spinner").clone();
     $("#events").empty();
     $("#events").append(spinner);
 
     get_events();
-
-    $("#find_activity").addClass("loading");
 
 }
 
@@ -222,7 +225,6 @@ $(document).ready(function(){
 		console.log( document.cookie);
 		$("#settings").hide();
 		$("#main").show();
-		$("#find_activity").click();
 		return false
 	});
 });
