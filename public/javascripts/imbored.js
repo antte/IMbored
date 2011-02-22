@@ -64,7 +64,7 @@ function events_to_html(event) {
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
 
-    var description_element = $("<p>").addClass("description").text(event.description);
+    var description_element = $("<p>").addClass("venue").text(event.location.venue);
 
     event_element.append(h1_element);
     event_element.append(startdate_element);

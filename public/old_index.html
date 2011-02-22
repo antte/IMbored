@@ -10,28 +10,35 @@
     	<title>IMBored</title>
         <script src="javascripts/jquery.js" type="text/javascript"></script>
         <script src="javascripts/datetime.js" type="text/javascript"></script>
-        <script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
-        <script src="javascripts/imbored.js" type="text/javascript"></script>
+		<script src="javascripts/imbored_mobile.js" type="text/javascript" charset="utf-8"></script>
+		<script src="javascripts/jquery.mobile-1.0a3.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="javascripts/imbored.js" type="text/javascript"></script>
+	    <link rel="stylesheet" href="stylesheets/jquery.mobile-1.0a3.css" type="text/css" media="screen" title="no title" charset="utf-8">
+                      
         <!--
           TODO: The media attribute should be set to "handheld", screen is for
           testing purposes.
           -->
         <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" type="text/css" media="handheld" />
     </head>
     <body>
-        <div data-role="page" id="main">
-            <div data-role="header">
+        <section id="main">
+            <header>
                 <h1>IMBored App</h1>
 				<a href="#"><img src="images/imbored_logo.png" alt="imbored" id="logo" /></a>
-            </div>
-            <div data-role="content">
-                <ul data-role="list-view" data-theme="g" id="events">
-			  
-					    
+            </header>
+            <section id="controlpanel"> 
+                <a id="find_activity" href="#">Find Activity</a>
+		        <a class="settings" href="#">Settings</a>
+            </section>
+            <section id="event_wrapper">
+                <ul id="events">
+                    <figure id="spinner">
+                        <a href="#"><img src="images/ajax-loader.gif" alt="loading" id="spinner" /></a>
+                    </figure>
                 </ul>
-            </div>
-        </div>
+            </section>
+        </section>
         <section id="settings">
 	        <a id="settings_back" href="#">< Back</a>  
 		        <form id="settings_form">
