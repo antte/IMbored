@@ -1,22 +1,22 @@
-header img{
-	float:left;
+.ui-li-heading {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0.6em 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-header h1 {
-	float:left;
+.ui-li .ui-btn-inner {
+    display: block;
+    padding: 0.0em 75px 0.0em 15px;
+    position: relative;
 }
 
-header a.nextNav {
-	right:10px;
-	left:auto;
+.ui-title h1{
+	display:inline;
+	
 }
 
-header a#settings {
-	right:10px;
-	left:auto;
-}
 
-header a.prevNav {
-	left:10px;
-	right:auto;
-}
+
