@@ -22,29 +22,41 @@
     </head>
     <body>
         <div data-role="page" id="main">
-            <header data-role="header">
-				<div >
-				<img src="images/imbored_logo.png" alt="imbored" id="logo" />
-				<h1>IMBored App</h1>
-				</div>
-				<a id="settings" class="nextNav" href="#settings">Inställning</a>
-            </header>
+			<div data-role="header" data-position="inline" data-backbtn="false">
+					<h1>imBored</h1>		
+				<a href="#settings" data-icon="gear" class="ui-btn-right">Inställningar</a>
+			</div>
             <div data-role="content">
                 <ul data-role="listview" data-theme="g" id="events">
-			  		
-					    
                 </ul>
             </div>		
         </div>
+		<div data-role="page" data-url="extended-information" id="extended-information" >
+			<div data-role="header" data-position="inline">
+				<!--><a href="#main" data-icon="back" class="ui-btn-right">Tillbaka</a>-->
+			 	<h1>imBored More</h1>
+			</div>
+			<div data-role="content">
+				<h2></h2>
+				<h3><time></time></h3>
+				<address>
+					
+				</address>
+				<p></p>	
+			</div>
+		</div>
 		<div data-role="page" id="settings">
-            <div data-role="header">
-				<a href="#main" class="prevNav" id="main">
-				<div>
-				<img src="images/imbored_logo.png" alt="imbored" id="logo" />
+			<div data-role="header" data-position="inline">
+				<a href="#main" data-icon="check">Klar</a>
 				<h1>Inställningar</h1>
-				</div>
-				<a href="#settings">Inställning</a>
-            </div>
+				<a href="#main" data-icon="delete" data-theme="b">Avbryt</a>
+			</div>
+			<div data-role="content">
+				<div date-role="fieldcontain">
+					<label for="Distance">Avstånd km:</label>
+					<input type="range" name="distance" id="distance" value="0" min="0" max="500" />
+		    	</div>
+			</div>
 		</div>
     </body>
 </html>
