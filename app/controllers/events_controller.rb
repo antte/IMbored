@@ -50,10 +50,13 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params)
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json  { render :json => @events }
+    if @event == nil then
+        render_error("204")
+    else
+        respond_to do |format|
+          format.html # show.html.erb
+          format.json  { render :json => @event }
+        end
     end
   end
 
