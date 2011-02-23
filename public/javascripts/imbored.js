@@ -1,7 +1,11 @@
 /*
  * IMBored Javascript
- * DEPENDENCIES: datetime.js (our own "lib")
+ * DEPENDENCIES: 
+ *  - datetime.js (our own "lib")
+ *      specifically we use the format_unixtime function
  */
+
+var events_getable = true;
 
 /*
  * Tries to retrive the users position and runs either a success or a failure
@@ -22,7 +26,13 @@ function get_position(success, error) {
 
 function position_success(position) {
 
-    // TODO: Make it only run once. (firefox runs this twice)
+    // The only reason this exists is because firefox fires the success
+    // callback twice sometimes.
+    if (!window.events_getable) {
+        return;
+    }
+
+    window.events_getable = false;
 
     var parameters = {};
 
@@ -101,6 +111,9 @@ function render_events (json) {
     
     // Jquery mobile stuff
     events_container.listview("refresh");
+    
+    // At this point we'll allow events to be loaded again
+    window.events_getable = true;
 
 }
 
