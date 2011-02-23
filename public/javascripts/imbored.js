@@ -57,18 +57,18 @@ function events_to_html(event) {
     // We append alot of stuff to this wrapping event element
     var event_element =     $("<li>").addClass("vevent");
 
-    var h1_element =        $("<h1>").addClass("summary").text(event.title);
+    var h1_element =        $("<h1>").text(event.title);
     var startdate_element = $("<time>").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
 
-    var venue_element = $("<p>").addClass("venue").text(event.location.venue);
-	 
+    var venue_element = $("<p>").addClass("venue").text(": " + event.location.venue);
+
+	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
-    event_element.append(startdate_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#'>");
+	event_element.wrapInner("<a href='#extended-information'>");
     return event_element;
 
 }
