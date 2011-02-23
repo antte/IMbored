@@ -45,12 +45,12 @@ function position_error(error) {
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
  */
-function events_to_html(event) {
+function events_to_html(event,e) {
 
     if (event instanceof Array) {
         var events = new Array();
         for (e in event) {
-            events.push(events_to_html(event[e]));
+            events.push(events_to_html(event[e],e));
         }
         return events;
     }
@@ -69,9 +69,27 @@ function events_to_html(event) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#extended-information'>");
-    return event_element;
+	event_element.wrapInner("<a href='#extended-information-"+e+">");
+    create_subpage(e,event);
+	return event_element;
 
+}
+
+function create_subpage(identifier , event){
+	var subpage = 
+		$('<div>').attr({'data-role':"page",'data-url':"extended-information-"+identifier}).append(function(){
+			$('<div>').attr({'data-role':"header", 'data-position':"inline"}).append(function(){
+				$('<a>').attr( {'data-icon':"back",'href':"#main"}).addClass("ui-btn-right").html('Tillbaka');
+		 		$('<h1>').html('imBored');
+			});
+			$('<div>').attr({'data-role':"content"}).html(function(){
+				$('<div>').html(event.title);
+				$('<div>').html(event.description);
+				
+			});
+		});
+				
+	$("body").append(subpage);	
 }
 
 
@@ -224,3 +242,8 @@ $(document).ready(function(){
     });
 
 });
+
+/*TEST */
+
+
+
