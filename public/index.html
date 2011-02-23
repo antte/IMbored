@@ -16,30 +16,34 @@
           TODO: The media attribute should be set to "handheld", screen is for
           testing purposes.
           -->
-        <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" type="text/css" media="handheld" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" type="text/css"  />
+        <link rel="stylesheet" href="stylesheets/style.css" type="text/css"  />
     </head>
     <body>
         <div data-role="page" id="main">
-            <div data-role="header">
-                <h1>IMBored App</h1>
-				<a href="#"><img src="images/imbored_logo.png" alt="imbored" id="logo" /></a>
-            </div>
+            <header data-role="header">
+				<div >
+				<img src="images/imbored_logo.png" alt="imbored" id="logo" />
+				<h1>IMBored App</h1>
+				</div>
+				<a id="settings" class="nextNav" href="#settings">Inställning</a>
+            </header>
             <div data-role="content">
-                <ul data-role="list-view" data-theme="g" id="events">
-			  
+                <ul data-role="listview" data-theme="g" id="events">
+			  		
 					    
                 </ul>
-            </div>
+            </div>		
         </div>
-        <section id="settings">
-	        <a id="settings_back" href="#">< Back</a>  
-		        <form id="settings_form">
-			        <label for="">
-			        <label for="distance">Distance:</label>
-			        <input type="range" name="settings_distance" id="settings_distance" min="0" max="500" value="0"/>
-			        <span id="range">0</span>
-		        </form>
-		</section>
+		<div data-role="page" id="settings">
+            <div data-role="header">
+				<a href="#main" class="prevNav" id="main">
+				<div>
+				<img src="images/imbored_logo.png" alt="imbored" id="logo" />
+				<h1>Inställningar</h1>
+				</div>
+				<a href="#settings">Inställning</a>
+            </div>
+		</div>
     </body>
 </html>
