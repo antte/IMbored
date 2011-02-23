@@ -1,7 +1,11 @@
 /*
  * IMBored Javascript
- * DEPENDENCIES: datetime.js (our own "lib")
+ * DEPENDENCIES: 
+ *  - datetime.js (our own "lib")
+ *      specifically we use the format_unixtime function
  */
+
+var events_getable = true;
 
 /*
  * Tries to retrive the users position and runs either a success or a failure
@@ -22,7 +26,13 @@ function get_position(success, error) {
 
 function position_success(position) {
 
-    // TODO: Make it only run once. (firefox runs this twice)
+    // The only reason this exists is because firefox fires the success
+    // callback twice sometimes.
+    if (!window.events_getable) {
+        return;
+    }
+
+    window.events_getable = false;
 
     var parameters = {};
 
@@ -58,18 +68,18 @@ function events_to_html(event) {
     // We append alot of stuff to this wrapping event element
     var event_element =     $("<li>").addClass("vevent");
 
-    var h1_element =        $("<h1>").addClass("summary").text(event.title);
+    var h1_element =        $("<h1>").text(event.title);
     var startdate_element = $("<time>").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
             datetime: format_unixtime(event.event_time, "html5")
     }).addClass("dtstart").text(format_unixtime(event.event_time, "human"));
 
-    var venue_element = $("<p>").addClass("venue").text(event.location.venue);
-	 
+    var venue_element = $("<p>").addClass("venue").text(": " + event.location.venue);
+
+	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
-    event_element.append(startdate_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#'>");
+	event_element.wrapInner("<a href='#extended-information'>");
     return event_element;
 
 }
@@ -101,6 +111,9 @@ function render_events (json) {
     
     // Jquery mobile stuff
     events_container.listview("refresh");
+    
+    // At this point we'll allow events to be loaded again
+    window.events_getable = true;
 
 }
 
