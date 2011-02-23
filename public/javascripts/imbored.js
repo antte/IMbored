@@ -1,45 +1,46 @@
 /*
+ * IMBored Javascript
  * DEPENDENCIES: datetime.js (our own "lib")
  */
 
 /*
- * Get events
+ * Tries to retrive the users position and runs either a success or a failure
+ * callback.
  */
-function get_events(){
+function get_position(success, error) {
 
-    $("#events").empty();
-    
-	/*successfully got position*/
-    function success_callback(position) {
-
-        var options = {};
-
-        options.longitude = position.coords.longitude;
-        options.latitude = position.coords.latitude;
-		options.distance = parseInt(get_cookie("settings_distance"));
-        render_events_from_api(options);
-
-        render_events_from_api(coordinates);
-        
-    }
-
-    /*failure to get position*/
-    function error_callback(error) {
-
-        var options = {};
-        
-        // TODO: Make a more useful error message to the user.
-        alert("We couldn't find your position, sorry.");
-        
-    }
+    events_container.empty();
 
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
-        navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
+        navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
-        error_callback({});
+        error();
     }
+
 }
+
+function position_success(position) {
+
+    // TODO: Make it only run once. (firefox runs this twice)
+
+    var parameters = {};
+
+    parameters.longitude = position.coords.longitude;
+    parameters.latitude = position.coords.latitude;
+    parameters.distance = parseInt(get_cookie("settings_distance"));
+
+    get_events(parameters, render_events, make_error("Couldn't find any events."));
+
+}
+
+function position_error(error) {
+
+    // TODO: Make a more useful error message to the user.
+    alert("We couldn't find your position, sorry.");
+    
+}
+
 /*
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
@@ -75,12 +76,20 @@ function events_to_html(event) {
 
 
 /*
+ * Converts json events into html and
  * Jquery append items to the events_container.
  */
-function render_events (events, events_container) {
+function render_events (json) {
 
-    events = events_to_html(events);
+    var json_array = [];
 
+    for(i in json) {
+        json_array.push(json[i]);
+    }
+
+    events = events_to_html(json_array);
+    
+    // Depending on the json data, events is an array of events or one event
     if (events instanceof Array) {
         for (i in events) {
             // We assume events_container is a jquery object
@@ -89,12 +98,21 @@ function render_events (events, events_container) {
     } else {
         events_container.append(events);
     }
-	$("ul").listview("refresh");
+    
+    // Jquery mobile stuff
+    events_container.listview("refresh");
+
 }
 
-function render_events_from_api (options) {
+/*
+ * Retrieves events from the api given some parameters and runs either success
+ * or error.
+ */
+function get_events (options, success, error) {
 
-    var events_container = $("#events");
+    if (!options.latitude || !options.longitude) {
+        error();
+    }
 
     var request_url = '/events.json?longitude=' + options.longitude + '&latitude=' + options.latitude;
     
@@ -108,18 +126,9 @@ function render_events_from_api (options) {
         type: 'GET',
         processData: false,
         contentType: 'application/json',
-        success: function(data) {
-            var events = [];
-            for(event in data) {
-                events.push(data[event]);
-            }
-            render_events(events, events_container);
-        },
+        success: success,
         statusCode: {
-            204: function() {
-                render_error("Couldn't find any events",events_container);
-            }
-
+            204: error
         }
     });
 }
@@ -135,54 +144,83 @@ function is_int(value){
     }
 }
 
-function render_error (error, events_container) {
-    var element = $("<li>");
-    var h1_element = $("<h1>").text(error);
-    element.append(h1_element);
-    events_container.append(element);
+/*
+ * Returns an error function that can be executed to display an error message.
+ */
+function make_error (error) {
+    return function () {
+        var element = $("<li>");
+        element.append($("<h1>").text(error));
+        events_container.append(element);
+    };
 }
 
-function set_cookie(cookie_name,value,ex_days){
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + ex_days);
-	var c_value=escape(value) + ((ex_days==null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie= cookie_name + "=" + c_value;
+function set_cookie( cookie_name, value, expires_in_days){
+
+        var cookie_value = escape(value);
+        
+        if (expires_in_days) {
+
+            var expire_date = new Date();
+            expire_date.setDate(expire_date.getDate() + expires_in_days);
+
+            cookie_value += "; expires=" + expire_date.toUTCString();
+
+        }
+
+	document.cookie = cookie_name + "=" + cookie_value;
+
 }
 
 function get_cookie(cookie_name){
-    var i,x,y,all_cookies=document.cookie.split(";");
-    for (i=0;i<all_cookies.length;i++){
-        x=all_cookies[i].substr(0,all_cookies[i].indexOf("="));
-        y=all_cookies[i].substr(all_cookies[i].indexOf("=")+1);
-        x=x.replace(/^\s+|\s+$/g,"");
-        if (x==cookie_name){
-            return unescape(y);
+
+    var i;
+    var key;
+    var value;
+    var all_cookies = document.cookie.split(";");
+
+    for ( i = 0 ; i < all_cookies.length ; i++ ){
+        
+        key = all_cookies[i].substr(0 , all_cookies[i].indexOf("=") );
+
+        value = all_cookies[i].substr( all_cookies[i].indexOf("=") + 1 );
+
+        key = key.replace(/^\s+|\s+$/g,"");
+
+        if ( key == cookie_name ){
+            return unescape(value);
         }
     }
+
+    return false;
+
 }
 
-/*
- * Made to be trigged by an event
- * Retrieves activities and displays them to the user
- */
-
 $(document).ready(function(){
+    
+    // This is where the events will be appended (appending it to window will
+    // make it globaly accessible)
+    window.events_container = $("ul#events");
 
-    get_events();
-	
-	$("#settings_form").submit(function(event){
-		event.preventDefault();
-	});
-	
-	$("#settings_back").click(function(){
-	    if ($("#settings_distance").val()) {
-			var now = new Date();
-			var expires = now.getTime()+2592000000;  
-			set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));			
-	    }
-		console.log( document.cookie);
-		$("#settings").hide();
-		$("#main").show();
-		return false
-	});
+    get_position(position_success, position_error);
+    
+    $("#settings_form").submit(function(event){
+        event.preventDefault();
+    });
+        
+    $("#settings_back").click(function(event){
+
+        if ($("#settings_distance").val()) {
+            var now = new Date();
+            var expires = now.getTime()+2592000000;
+            set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
+        }
+
+        $("#settings").hide();
+        $("#main").show();
+
+        event.preventDefault();
+
+    });
+
 });
