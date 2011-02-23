@@ -47,7 +47,18 @@ function position_success(position) {
 function position_error(error) {
 
     // TODO: Make a more useful error message to the user.
-    alert("We couldn't find your position, sorry.");
+    alert("We couldn't find your position, sorry. Setting default Stockholm position");
+   if (!window.events_getable) {
+        return;
+    }
+    window.events_getable = false;
+    var parameters = {};
+    parameters.longitude = 59;
+    parameters.latitude = 18;
+    parameters.distance = parseInt(get_cookie("settings_distance"));
+
+    get_events(parameters, render_events, make_error("Couldn't find any events."));
+
     
 }
 
@@ -79,32 +90,18 @@ function events_to_html(event,e) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#extended-information-"+e+">");
+	event_element.wrapInner("<a href='#ei-"+e+">");
     create_subpage(e,event);
 	return event_element;
 
 }
+/*
+ *Populate copy of a #extended information event
+ */
 
 function create_subpage(identifier , event){
-	/*var a = $('<a>').attr( {'data-icon':"back",'href':"#main"}).addClass("ui-btn-right").html('Tillbaka');
-	var h1= $('<h1>').html('imBored');
-	var header = $('<div>').attr({'data-role':"header", 'data-position':"inline"});
-	header.append(a).append(h1);
-			
-	var title = $('<h2>').html(event.title);
-    	
-	var venue_element = $("<p>").addClass("venue").text(": " + event.location.venue);
-
-	var description = $('<div>').html(event.description);
-	content= $('<div>').attr({'data-role':"content"})
-	content.append(title).append(description);
-
-
-	var subpage = $('<div>').attr({'data-role':"page",'data-url':"extended-information-"+identifier});			
-	subpage.append(header).append(content);			
-	*/
 	var subpage = $('#extended-information').clone();
-	subpage.attr('data-url','extended-information-'+identifier);
+	subpage.attr({'data-url':'ei-'+identifier, 'id':'ei-'+identifier });
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
@@ -246,27 +243,20 @@ $(document).ready(function(){
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
     window.events_container = $("ul#events");
+	window.onhashchange = function(){alert('hashchange');}
 
     get_position(position_success, position_error);
-    
-    $("#settings_form").submit(function(event){
-        event.preventDefault();
-    });
-        
-    $("#settings_back").click(function(event){
-
+            
+	$("#settings-go").click(function(event){klick(event)});
+	
+	
+	var klick = function(event){		
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
-        }
-
-        $("#settings").hide();
-        $("#main").show();
-
-        event.preventDefault();
-
-    });
+		}
+    };
 
 });
 
