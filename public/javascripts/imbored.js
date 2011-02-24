@@ -143,7 +143,7 @@ function get_events (parameters, success, error) {
         error();
     }
 
-    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + options.latitude;
+    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + parameters.latitude;
     
     if (is_int(parameters.distance)) {
         request_url += "&distance=" + parameters.distance.toString();
