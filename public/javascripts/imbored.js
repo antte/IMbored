@@ -46,19 +46,7 @@ function position_success(position) {
 
 function position_error(error) {
 
-    // TODO: Make a more useful error message to the user.
-    alert("We couldn't find your position, sorry. Setting default Stockholm position");
-   if (!window.events_getable) {
-        return;
-    }
-    window.events_getable = false;
-    var parameters = {};
-    parameters.longitude = 59;
-    parameters.latitude = 18;
-    parameters.distance = parseInt(get_cookie("settings_distance"));
-
-    get_events(parameters, render_events, make_error("Couldn't find any events."));
-
+    make_error("Couldn't get your position, reload page.")();
     
 }
 
@@ -102,7 +90,6 @@ function events_to_html(event,identifier) {
 function create_subpage(identifier , event){
 	
 	var subpage = $('#extended-information').clone();
-	$('#extended-information .ui-btn-text').text('Tillbaka');
 	subpage.attr('data-url',identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
