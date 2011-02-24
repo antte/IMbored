@@ -265,8 +265,8 @@ $(document).ready(function(){
        
 	$("#settings_done").click(function(event){
 		
-		event.preventDefault();
-		
+            event.preventDefault();
+
         if ($("#settings_distance").val() != get_cookie("settings_distance")) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
@@ -276,7 +276,6 @@ $(document).ready(function(){
 		
 		$("#settings").hide();
         $("#main").show();
-        
 	});
 	
 	$(document).ajaxStart(function(){
