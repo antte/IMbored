@@ -102,6 +102,7 @@ function events_to_html(event,identifier) {
 function create_subpage(identifier , event){
 	
 	var subpage = $('#extended-information').clone();
+	$('#extended-information .ui-btn-text').text('Tillbaka');
 	subpage.attr('data-url',identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
@@ -161,7 +162,8 @@ function get_events (parameters, success, error) {
     
     if (is_int(parameters.distance)) {
         request_url += "&distance=" + parameters.distance.toString();
-    }
+    }                                                     
+
     
     $.ajax({
         url: request_url,
@@ -224,10 +226,11 @@ function get_cookie(cookie_name){
 
     for ( i = 0 ; i < all_cookies.length ; i++ ){
         
+        
         key = all_cookies[i].substr(0 , all_cookies[i].indexOf("=") );
 
         value = all_cookies[i].substr( all_cookies[i].indexOf("=") + 1 );
-
+		
         key = key.replace(/^\s+|\s+$/g,"");
 
         if ( key == cookie_name ){
@@ -243,10 +246,34 @@ $(document).ready(function(){
     
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
-	window.events_container = $("ul#events");
-	get_position(position_success, position_error);
-            
-	$("#settings-go").click(function(event){
+    window.events_container = $("ul#events");
+	
+    get_position(position_success, position_error);
+    
+    $("#settings_form").submit(function(event){
+        event.preventDefault();
+    });
+    
+    $("#settings").bind("pageshow", function(){
+	    var distance = get_cookie("settings_distance");
+	    var slider = $("#settings_distance");
+	    if (distance != false) {
+	    	slider.val(distance);
+	    }
+    	slider.slider("refresh");
+    });
+    
+    $("#settings_button").click(function(){
+	    $("#settings").show();
+        $("#main").hide();
+    });
+    
+    $("#settings_exit").click(function(){
+        $("#settings").hide();
+        $("#main").show();    	
+    });
+        
+	$("#settings_done").click(function(event){
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
