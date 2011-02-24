@@ -1,11 +1,13 @@
-    require 'net/http'
 class LastfmAPIInterpreter
+    require 'net/http'
     require "rexml/document"
+    require 'geokit'
     include REXML
     include ActionView::Helpers::SanitizeHelper
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
     def get_events(options)
-      return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
+        @@request_coordinates = Geokit::LatLng.new( options[:latitude], options[:longitude] )
+        return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
 
     private 
@@ -43,7 +45,13 @@ class LastfmAPIInterpreter
     end
          
     def populateEventFromXml(item)
+
         event_time = ""
+
+        item_coordinates = Geokit::LatLng.new(item.elements["venue/location/geo:point/geo:lat"].text, item.elements["venue/location/geo:point/geo:long"].text)
+        
+        distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms)
+        
         location = {
             :street => item.elements["venue/location/street"] !=nil ? item.elements["venue/location/street"].text : "",
             :postal_code => item.elements["venue/location/postalcode"] !=nil ? item.elements["venue/location/postalcode"].text : "",
@@ -59,10 +67,14 @@ class LastfmAPIInterpreter
           :title => item.elements["title"] !=nil ? item.elements["title"].text : "",
           :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
           :location => location,
-          :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : ""
+          :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : "",
+          :distance => distance_to_item.to_s
         }
+
         event = Event.new(option)
+
         return event     
+
     end
     
     def development
