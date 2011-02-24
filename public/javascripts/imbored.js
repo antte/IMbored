@@ -46,7 +46,13 @@ function position_success(position) {
 
 function position_error(error) {
 
-    make_error("Couldn't get your position, reload page.")();
+    //make_error("Couldn't get your position, reload page.")();
+    var parameters = {};
+
+    parameters.longitude = 59;
+    parameters.latitude = 18;
+    parameters.distance = parseInt(get_cookie("settings_distance"));
+	get_events(parameters, render_events, make_error("Couldn't find any events."));
     
 }
 
@@ -252,20 +258,15 @@ $(document).ready(function(){
        
 	$("#settings_done").click(function(event){
 		
-            event.preventDefault();
-            
-            if ($("#settings_distance").val()) {
-                var now = new Date();
-                var expires = now.getTime()+2592000000;
-                set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
-            }
-		
-            
-            $("#settings").hide();
-            $("#main").show();
+       event.preventDefault();
 
-            get_position(position_success, position_error);
-        
+       if ($("#settings_distance").val() != get_cookie("settings_distance")) {
+            var now = new Date();
+            var expires = now.getTime()+2592000000;
+            set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
+			get_position(position_success, position_error);
+		}
+		
 	});
 	
 	$(document).ajaxStart(function(){
