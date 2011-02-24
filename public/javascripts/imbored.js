@@ -12,11 +12,11 @@ var events_getable = true;
  * callback.
  */
 function get_position(success, error) {
-
+	
     events_container.empty();
-	console.log("get_Possition");
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
+        $.mobile.pageLoading();
         navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
         error();
@@ -90,7 +90,7 @@ function events_to_html(event,identifier) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#"+identifier+"'>");
+	event_element.wrapInner("<a href='#"+identifier+"'> data-transition='slide'");
     create_subpage(identifier,event);
 	return event_element;
 
@@ -254,7 +254,16 @@ $(document).ready(function(){
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
 		}
+		get_position(position_success, position_error);
 
+	});
+	
+	$(document).ajaxStart(function(){
+		$.mobile.pageLoading();
+	});
+	
+	$(document).ajaxStop(function(){
+		$.mobile.pageLoading(true);
 	});
 });
 
