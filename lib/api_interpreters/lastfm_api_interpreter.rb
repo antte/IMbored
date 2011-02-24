@@ -100,7 +100,7 @@ class LastfmAPIInterpreter
             :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
             :location => location,
             :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : "",
-            :distance => distance_to_item.to_s
+            :distance => distance_to_item.to_i
         }
 
         event = Event.new(option)

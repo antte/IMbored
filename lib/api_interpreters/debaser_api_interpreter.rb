@@ -132,7 +132,7 @@ class DebaserAPIInterpreter
             :description => item.elements["description"] != nil ? strip_tags(item.elements["description"].text) : "",
             :location => location,
             :event_time => starttime,
-            :distance => distance_to_item
+            :distance => distance_to_item.to_i
         }
         event = Event.new(option)
         return event     
