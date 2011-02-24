@@ -225,10 +225,11 @@ function get_cookie(cookie_name){
 
     for ( i = 0 ; i < all_cookies.length ; i++ ){
         
+        
         key = all_cookies[i].substr(0 , all_cookies[i].indexOf("=") );
 
         value = all_cookies[i].substr( all_cookies[i].indexOf("=") + 1 );
-
+		
         key = key.replace(/^\s+|\s+$/g,"");
 
         if ( key == cookie_name ){
@@ -244,17 +245,38 @@ $(document).ready(function(){
     
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
-	window.events_container = $("ul#events");
-	get_position(position_success, position_error);
-            
-	$("#settings-go").click(function(event){
+    window.events_container = $("ul#events");
+	
+    get_position(position_success, position_error);
+    
+    $("#settings_form").submit(function(event){
+        event.preventDefault();
+    });
+    
+    $("#settings").bind("pageshow", function(){
+	    var distance = get_cookie("settings_distance");
+	    var slider = $("#settings_distance");
+	    if (distance != false) {
+	    	slider.val(distance);
+	    }
+    	slider.slider("refresh");
+    });
+       
+	$("#settings_done").click(function(event){
+		
+		event.preventDefault();
+		
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
 		}
+		
 		get_position(position_success, position_error);
-
+		
+		$("#settings").hide();
+        $("#main").show();
+        
 	});
 	
 	$(document).ajaxStart(function(){
