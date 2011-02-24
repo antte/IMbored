@@ -14,7 +14,7 @@ var events_getable = true;
 function get_position(success, error) {
 
     events_container.empty();
-
+	console.log("get_Possition");
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success, error, options);
@@ -71,7 +71,7 @@ function events_to_html(event,identifier) {
     if (event instanceof Array) {
         var events = new Array();
         for (e in event) {
-            events.push(events_to_html(event[e],e));
+            events.push(events_to_html(event[e],event[e].id));
         }
         return events;
     }
@@ -90,7 +90,7 @@ function events_to_html(event,identifier) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#extended-information-"+identifier+">");
+	event_element.wrapInner("<a href='"+identifier+"'>");
     create_subpage(identifier,event);
 	return event_element;
 
@@ -102,7 +102,7 @@ function events_to_html(event,identifier) {
 function create_subpage(identifier , event){
 	
 	var subpage = $('#extended-information').clone();
-	subpage.attr('data-url','extended-information-'+identifier);
+	subpage.attr('data-url',identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
@@ -128,7 +128,7 @@ function render_events (json) {
     }
 
     var events = events_to_html(json_array);
-    
+    window.events = json_array;
     // Depending on the json data, events is an array of events or one event
     if (events instanceof Array) {
         for (i in events) {
@@ -157,7 +157,7 @@ function get_events (parameters, success, error) {
         error();
     }
 
-    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + options.latitude;
+    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + parameters.latitude;
     
     if (is_int(parameters.distance)) {
         request_url += "&distance=" + parameters.distance.toString();
