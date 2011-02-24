@@ -262,17 +262,7 @@ $(document).ready(function(){
 	    }
     	slider.slider("refresh");
     });
-    
-    $("#settings_button").click(function(){
-	    $("#settings").show();
-        $("#main").hide();
-    });
-    
-    $("#settings_exit").click(function(){
-        $("#settings").hide();
-        $("#main").show();    	
-    });
-        
+       
 	$("#settings_done").click(function(event){
         if ($("#settings_distance").val()) {
             var now = new Date();
