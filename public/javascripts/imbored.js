@@ -90,7 +90,7 @@ function events_to_html(event,identifier) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='"+identifier+"'>");
+	event_element.wrapInner("<a href='#"+identifier+"'>");
     create_subpage(identifier,event);
 	return event_element;
 
