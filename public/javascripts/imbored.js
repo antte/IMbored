@@ -14,7 +14,7 @@ var events_getable = true;
 function get_position(success, error) {
 
     events_container.empty();
-
+	console.log("get_Possition");
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success, error, options);
@@ -47,7 +47,18 @@ function position_success(position) {
 function position_error(error) {
 
     // TODO: Make a more useful error message to the user.
-    alert("We couldn't find your position, sorry.");
+    alert("We couldn't find your position, sorry. Setting default Stockholm position");
+   if (!window.events_getable) {
+        return;
+    }
+    window.events_getable = false;
+    var parameters = {};
+    parameters.longitude = 59;
+    parameters.latitude = 18;
+    parameters.distance = parseInt(get_cookie("settings_distance"));
+
+    get_events(parameters, render_events, make_error("Couldn't find any events."));
+
     
 }
 
@@ -60,7 +71,7 @@ function events_to_html(event,identifier) {
     if (event instanceof Array) {
         var events = new Array();
         for (e in event) {
-            events.push(events_to_html(event[e],e));
+            events.push(events_to_html(event[e],event[e].id));
         }
         return events;
     }
@@ -79,16 +90,19 @@ function events_to_html(event,identifier) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#extended-information-"+identifier+">");
+	event_element.wrapInner("<a href='#"+identifier+"'>");
     create_subpage(identifier,event);
 	return event_element;
 
 }
+/*
+ *Populate copy of a #extended information with a event and append it to body
+ */
 
 function create_subpage(identifier , event){
 	
 	var subpage = $('#extended-information').clone();
-	subpage.attr('data-url','extended-information-'+identifier);
+	subpage.attr('data-url',identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
@@ -108,13 +122,13 @@ function create_subpage(identifier , event){
 function render_events (json) {
 
     var json_array = [];
-
+    window.events = json_array;
     for(i in json) {
         json_array.push(json[i]);
     }
 
-    events = events_to_html(json_array);
-    
+    var events = events_to_html(json_array);
+    window.events = json_array;
     // Depending on the json data, events is an array of events or one event
     if (events instanceof Array) {
         for (i in events) {
@@ -229,32 +243,19 @@ $(document).ready(function(){
     
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
-    window.events_container = $("ul#events");
-	
-    get_position(position_success, position_error);
-    
-    $("#settings_form").submit(function(event){
-        event.preventDefault();
-    });
-        
-    $("#settings_back").click(function(event){
-
+	window.events_container = $("ul#events");
+	get_position(position_success, position_error);
+            
+	$("#settings-go").click(function(event){
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
-        }
+		}
 
-        $("#settings").hide();
-        $("#main").show();
-
-        event.preventDefault();
-
-    });
-
+	});
 });
 
-/*TEST */
 
 
 

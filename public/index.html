@@ -11,8 +11,8 @@
     	<title>IMBored</title>
         <script src="javascripts/jquery.js" type="text/javascript"></script>
         <script src="javascripts/datetime.js" type="text/javascript"></script>
-        <script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
         <script src="javascripts/imbored.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
         <!--
           TODO: The media attribute should be set to "handheld", screen is for
           testing purposes.
@@ -28,6 +28,7 @@
 			</div>
             <div data-role="content">
                 <ul data-role="listview" data-theme="g" id="events">
+                	<li></li>
                 </ul>
             </div>		
         </div>
@@ -47,14 +48,14 @@
 		</div>
 		<div data-role="page" id="settings" data-url="settings">
 			<div data-role="header" data-position="inline">
-				<a href="#main" data-icon="check">Klar</a>
+				<a class='settings-go' id='settings-go' href="#main" data-icon="check">Klar</a>
 				<h1>Inställningar</h1>
 				<a href="#main" data-icon="delete" data-theme="b">Avbryt</a>
 			</div>
 			<div data-role="content">
 				<div date-role="fieldcontain">
 					<label for="Distance">Avstånd km:</label>
-					<input type="range" name="distance" id="distance" value="0" min="0" max="500" />
+					<input type="range" name="distance" id="settings_distance" value="0" min="0" max="500" />
 		    	</div>
 			</div>
 		</div>
