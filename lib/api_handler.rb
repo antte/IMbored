@@ -11,8 +11,19 @@ class APIHandler
             events = events | api_interpreter.get_events(options) #pipe = combine and remove duples in array
         end
 
-        # Sort events by time
-        events.sort! { |a,b| a.distance <=> b.distance }
+        now = Time.new.to_i
+
+        # This is really stupid 'weight' constants for the algoritm below
+        distance_weight = 100
+        time_weight = 100
+
+        # This is the algorithm stuff for putting a rank on an event
+        events.each do |event| 
+            event.rank = ((event.distance.to_i * 1000) * distance_weight) + ( (event.event_time - now) * time_weight )
+        end
+
+        # Sort on the rank
+        events.sort! { |a,b| a.rank <=> b.rank }
 
         return events
 
