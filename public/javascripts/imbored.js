@@ -90,18 +90,18 @@ function events_to_html(event,e) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#ei-"+e+">");
+	event_element.wrapInner("<a href='#ei-"+e+" data->");
     create_subpage(e,event);
 	return event_element;
 
 }
 /*
- *Populate copy of a #extended information event
+ *Populate copy of a #extended information with a event and append it to body
  */
 
 function create_subpage(identifier , event){
 	var subpage = $('#extended-information').clone();
-	subpage.attr({'data-url':'ei-'+identifier, 'id':'ei-'+identifier });
+	subpage.attr({'data-url':'ei-'+identifier, 'id':+identifier });
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
@@ -121,12 +121,12 @@ function create_subpage(identifier , event){
 function render_events (json) {
 
     var json_array = [];
-
+    window.events = json_array;
     for(i in json) {
         json_array.push(json[i]);
     }
 
-    events = events_to_html(json_array);
+    var events = events_to_html(json_array);
     
     // Depending on the json data, events is an array of events or one event
     if (events instanceof Array) {
@@ -242,25 +242,19 @@ $(document).ready(function(){
     
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
-    window.events_container = $("ul#events");
-	window.onhashchange = function(){alert('hashchange');}
-
-    get_position(position_success, position_error);
+	window.events_container = $("ul#events");
+	get_position(position_success, position_error);
             
-	$("#settings-go").click(function(event){klick(event)});
-	
-	
-	var klick = function(event){		
+	$("#settings-go").click(function(event){
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
 		}
-    };
 
+	});
 });
 
-/*TEST */
 
 
 
