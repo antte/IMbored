@@ -80,7 +80,7 @@ class LastfmAPIInterpreter
         if @@request_coordinates == nil then
             distance_to_item = "unknown"
         else
-            distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms)
+            distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms).round
         end
         
         location = {
