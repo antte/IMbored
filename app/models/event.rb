@@ -1,5 +1,5 @@
 class Event
-    attr_accessor :title, :location, :description, :event_time, :id
+    attr_accessor :title, :location, :description, :event_time, :id, :distance, :rank
 
     def self.all(options)
         
@@ -13,6 +13,8 @@ class Event
         self.description = attributes[:description]
         self.location = attributes[:location]
         self.event_time = attributes[:event_time]
+        self.distance = attributes[:distance]
+        self.rank = attributes[:rank]
      end
 
     def read_attribute_for_validation(key)

@@ -11,8 +11,8 @@
     	<title>IMBored</title>
         <script src="javascripts/jquery.js" type="text/javascript"></script>
         <script src="javascripts/datetime.js" type="text/javascript"></script>
-        <script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
         <script src="javascripts/imbored.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
         <!--
           TODO: The media attribute should be set to "handheld", screen is for
           testing purposes.
@@ -23,8 +23,8 @@
     <body>
         <div data-role="page" id="main">
 			<div data-role="header" data-position="inline" data-backbtn="false">
-					<h1>imBored</h1>		
-				<a href="#settings" id="settings_button" data-icon="gear" class="ui-btn-right">Inställningar</a>
+				<h1>imBored</h1>		
+				<a href="#settings" id="settings_button" data-icon="gear" class="ui-btn-right" data-transition="flip">Inställningar</a>
 			</div>
             <div data-role="content">
                 <ul data-role="listview" data-theme="g" id="events">
@@ -32,8 +32,8 @@
             </div>		
         </div>
 		<div data-role="page" data-url="extended-information" id="extended-information" >
-			<div data-role="header" data-position="inline">
-				<!--><a href="#main" data-icon="back" class="ui-btn-right">Tillbaka</a>-->
+			<div data-role="header" data-position="inline" data-direction="reverse" >
+				<a href="#main" data-icon="back" class="ui-btn-left">Tillbaka</a>
 			 	<h1>imBored More</h1>
 			</div>
 			<div data-role="content">
@@ -45,15 +45,16 @@
 				<p></p>	
 			</div>
 		</div>
-		<div data-role="page" id="settings" data-url="settings">
+		<div data-role="page" id="settings" data-url="settings" >
 			<div data-role="header" data-position="inline">
-				<a id="settings_done" href="#main" data-icon="check">Klar</a>
+				<a id="settings_done" href="#main" data-transition="flip" data-icon="check">Klar</a>
 				<h1>Inställningar</h1>
-				<a id="settings_exit" href="#main" data-icon="delete" data-theme="b">Avbryt</a>
+				<a id="settings_exit" data-transition="flip" href="#main" data-icon="delete" data-theme="a">Avbryt</a>
 			</div>
 			<div data-role="content">
 				<div date-role="fieldcontain">
 					<label for="Distance">Avstånd km:</label>
+					<h1>Inställningar</h1>
 					<input type="range" name="distance" id="settings_distance" value="0" min="0" max="500" />
 		    	</div>
 			</div>
