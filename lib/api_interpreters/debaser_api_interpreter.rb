@@ -7,21 +7,17 @@ class DebaserAPIInterpreter
     include ActionView::Helpers::SanitizeHelper
     
     def get_events(options)
-        return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
+        return getXMLParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
+    end
+
+    def get_event(identifier)
+        return getXMLByIdParseToEventObjs(identifier)        
     end
 
     private 
     
-    def getXMLByGeoParseToEventObjs(longitude,latitude,dist)
+    def getXMLParseToEventObjs(longitude,latitude,dist)
         @events = Array.new 
-        ### geo.getevens options
-        ###lat = latitude #(Optional) : Specifies a latitude value to retrieve events for (service returns nearby events by default)
-        #location(Optional) : Specifies a location to retrieve events for (service returns nearby events by default)
-        ###long = longitude #(Optional) : Specifies a longitude value to retrieve events for (service returns nearby events by default)
-        ###distance =  dist #(Optional) : Find events within a specified radius (in kilometres)
-        #limit (Optional) : The number of results to fetch per page. Defaults to 10.
-        #page #(Optional) : The page number to fetch. Defaults to first page.
-
         startTime = Time.new
         endTime = startTime + (60 * 60 * 24 * 7) # Seven days
 
@@ -46,6 +42,11 @@ class DebaserAPIInterpreter
 
 
         return @events
+    end
+
+    def getXMLByIdParseToEventObjs(identifier)        
+        # Lulz you cant do that!
+        return nil
     end
          
     def populateEventFromXml(item)
@@ -121,6 +122,7 @@ class DebaserAPIInterpreter
         end
         
         option = {
+            :id => "debaser_" + (item.elements["eventid"].text),
             :title => title,
             :description => item.elements["description"] != nil ? strip_tags(item.elements["description"].text) : "",
             :location => location,

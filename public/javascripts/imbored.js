@@ -55,7 +55,7 @@ function position_error(error) {
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
  */
-function events_to_html(event,e) {
+function events_to_html(event,identifier) {
 
     if (event instanceof Array) {
         var events = new Array();
@@ -79,30 +79,14 @@ function events_to_html(event,e) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#extended-information-"+e+">");
-    create_subpage(e,event);
+	event_element.wrapInner("<a href='#extended-information-"+identifier+">");
+    create_subpage(identifier,event);
 	return event_element;
 
 }
 
 function create_subpage(identifier , event){
-	/*var a = $('<a>').attr( {'data-icon':"back",'href':"#main"}).addClass("ui-btn-right").html('Tillbaka');
-	var h1= $('<h1>').html('imBored');
-	var header = $('<div>').attr({'data-role':"header", 'data-position':"inline"});
-	header.append(a).append(h1);
-			
-	var title = $('<h2>').html(event.title);
-    	
-	var venue_element = $("<p>").addClass("venue").text(": " + event.location.venue);
-
-	var description = $('<div>').html(event.description);
-	content= $('<div>').attr({'data-role':"content"})
-	content.append(title).append(description);
-
-
-	var subpage = $('<div>').attr({'data-role':"page",'data-url':"extended-information-"+identifier});			
-	subpage.append(header).append(content);			
-	*/
+	
 	var subpage = $('#extended-information').clone();
 	subpage.attr('data-url','extended-information-'+identifier);
 	subpage.find("h2").html(event.title);
@@ -153,16 +137,16 @@ function render_events (json) {
  * Retrieves events from the api given some parameters and runs either success
  * or error.
  */
-function get_events (options, success, error) {
+function get_events (parameters, success, error) {
 
-    if (!options.latitude || !options.longitude) {
+    if (!parameters.latitude || !parameters.longitude) {
         error();
     }
 
-    var request_url = '/events.json?longitude=' + options.longitude + '&latitude=' + options.latitude;
+    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + options.latitude;
     
-    if (is_int(options.distance)) {
-        request_url += "&distance=" + options.distance.toString();
+    if (is_int(parameters.distance)) {
+        request_url += "&distance=" + parameters.distance.toString();
     }
     
     $.ajax({
@@ -246,7 +230,7 @@ $(document).ready(function(){
     // This is where the events will be appended (appending it to window will
     // make it globaly accessible)
     window.events_container = $("ul#events");
-
+	
     get_position(position_success, position_error);
     
     $("#settings_form").submit(function(event){
