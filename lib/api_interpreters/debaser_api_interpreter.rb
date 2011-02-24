@@ -7,6 +7,7 @@ class DebaserAPIInterpreter
     include ActionView::Helpers::SanitizeHelper
     
     def get_events(options)
+        @@request_coordinates = Geokit::LatLng.new( options[:latitude], options[:longitude] )
         return getXMLParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
 
@@ -120,13 +121,18 @@ class DebaserAPIInterpreter
             # Meh, don't know how we want to present the "club" data
             title = title + " " +  item.elements["club"].text
         end
-        
+       
+        # Calculate distance
+        item_coordinates = Geokit::LatLng.new(location[:latitude], location[:longitude])
+        distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms).round
+
         option = {
             :id => "debaser_" + (item.elements["eventid"].text),
             :title => title,
             :description => item.elements["description"] != nil ? strip_tags(item.elements["description"].text) : "",
             :location => location,
-            :event_time => starttime 
+            :event_time => starttime,
+            :distance => distance_to_item.to_i
         }
         event = Event.new(option)
         return event     

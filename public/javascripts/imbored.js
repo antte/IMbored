@@ -12,10 +12,11 @@ var events_getable = true;
  * callback.
  */
 function get_position(success, error) {
-
+	
     events_container.empty();
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
+        $.mobile.pageLoading();
         navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
         error();
@@ -253,6 +254,14 @@ $(document).ready(function(){
 		}
 		get_position(position_success, position_error);
 
+	});
+	
+	$(document).ajaxStart(function(){
+		$.mobile.pageLoading();
+	});
+	
+	$(document).ajaxStop(function(){
+		$.mobile.pageLoading(true);
 	});
 });
 

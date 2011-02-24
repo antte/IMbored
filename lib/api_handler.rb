@@ -10,9 +10,9 @@ class APIHandler
         @@api_interpreters.each do |api_interpreter|
             events = events | api_interpreter.get_events(options) #pipe = combine and remove duples in array
         end
-        # Sort events by time
 
-        events.sort! { |a,b| a.event_time <=> b.event_time}
+        # Sort events by time
+        events.sort! { |a,b| a.distance <=> b.distance }
 
         return events
 

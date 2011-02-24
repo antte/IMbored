@@ -5,12 +5,14 @@ class LastfmAPIInterpreter
     include REXML
     include ActionView::Helpers::SanitizeHelper
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
+
     def get_events(options)
         @@request_coordinates = Geokit::LatLng.new( options[:latitude], options[:longitude] )
         return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
     end
 
     def get_event(identifier)
+        @@request_coordinates = nil
         return getXMLByIdParseToEventObj(identifier)        
     end
 
@@ -75,7 +77,11 @@ class LastfmAPIInterpreter
 
         item_coordinates = Geokit::LatLng.new(item.elements["venue/location/geo:point/geo:lat"].text, item.elements["venue/location/geo:point/geo:long"].text)
         
-        distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms)
+        if @@request_coordinates == nil then
+            distance_to_item = "unknown"
+        else
+            distance_to_item = @@request_coordinates.distance_to(item_coordinates, :units=>:kms).round
+        end
         
         location = {
             :street => item.elements["venue/location/street"] !=nil ? item.elements["venue/location/street"].text : "",
@@ -94,7 +100,7 @@ class LastfmAPIInterpreter
             :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
             :location => location,
             :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : "",
-            :distance => distance_to_item.to_s
+            :distance => distance_to_item.to_i
         }
 
         event = Event.new(option)
