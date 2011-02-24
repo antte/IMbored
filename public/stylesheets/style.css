@@ -16,6 +16,20 @@
 .ui-title h1{
 	display:inline;
 	
-}
+	
+} 
+
+.ui-header img {
+	margin: 0px auto;
+} 
+
+.ui-icon-loading {
+	background: url('../images/imbored_logo.png');
+	background-color: white;
+	color:white;
+} 
+
+
+
 
 
