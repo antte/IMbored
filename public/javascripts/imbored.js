@@ -265,18 +265,19 @@ $(document).ready(function(){
        
 	$("#settings_done").click(function(event){
 		
-		event.preventDefault();
+            event.preventDefault();
+            
+            if ($("#settings_distance").val()) {
+                var now = new Date();
+                var expires = now.getTime()+2592000000;
+                set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
+            }
 		
-        if ($("#settings_distance").val()) {
-            var now = new Date();
-            var expires = now.getTime()+2592000000;
-            set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
-		}
-		
-		get_position(position_success, position_error);
-		
-		$("#settings").hide();
-        $("#main").show();
+            
+            $("#settings").hide();
+            $("#main").show();
+
+            get_position(position_success, position_error);
         
 	});
 	
