@@ -24,7 +24,7 @@
         <div data-role="page" id="main">
 			<div data-role="header" data-position="inline" data-backbtn="false">
 					<h1>imBored</h1>		
-				<a href="#settings" data-icon="gear" class="ui-btn-right">Inställningar</a>
+				<a href="#settings" data-icon="gear" class="ui-btn-right" data-transition="flip">Inställningar</a>
 			</div>
             <div data-role="content">
                 <ul data-role="listview" data-theme="g" id="events">
@@ -33,7 +33,7 @@
             </div>		
         </div>
 		<div data-role="page" data-url="extended-information" id="extended-information" >
-			<div data-role="header" data-position="inline">
+			<div data-role="header" data-position="inline" data-direction="reverse" >
 				<!--><a href="#main" data-icon="back" class="ui-btn-right">Tillbaka</a>-->
 			 	<h1>imBored More</h1>
 			</div>
@@ -46,11 +46,11 @@
 				<p></p>	
 			</div>
 		</div>
-		<div data-role="page" id="settings" data-url="settings">
+		<div data-role="page" id="settings" data-url="settings" >
 			<div data-role="header" data-position="inline">
-				<a class='settings-go' id='settings-go' href="#main" data-icon="check">Klar</a>
+				<a class='settings-go' id='settings-go' href="#main" data-icon="check" data-transition="flip">Klar</a>
 				<h1>Inställningar</h1>
-				<a href="#main" data-icon="delete" data-theme="b">Avbryt</a>
+				<a href="#main" data-icon="delete" data-theme="b" data-transition="flip">Avbryt</a>
 			</div>
 			<div data-role="content">
 				<div date-role="fieldcontain">
