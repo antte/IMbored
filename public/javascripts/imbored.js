@@ -102,6 +102,7 @@ function events_to_html(event,identifier) {
 function create_subpage(identifier , event){
 	
 	var subpage = $('#extended-information').clone();
+	$('#extended-information .ui-btn-text').text('Tillbaka');
 	subpage.attr('data-url',identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
@@ -161,7 +162,8 @@ function get_events (parameters, success, error) {
     
     if (is_int(parameters.distance)) {
         request_url += "&distance=" + parameters.distance.toString();
-    }
+    }                                                     
+
     
     $.ajax({
         url: request_url,
