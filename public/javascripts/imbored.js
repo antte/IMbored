@@ -210,10 +210,11 @@ function get_cookie(cookie_name){
 
     for ( i = 0 ; i < all_cookies.length ; i++ ){
         
+        
         key = all_cookies[i].substr(0 , all_cookies[i].indexOf("=") );
 
         value = all_cookies[i].substr( all_cookies[i].indexOf("=") + 1 );
-
+		
         key = key.replace(/^\s+|\s+$/g,"");
 
         if ( key == cookie_name ){
@@ -236,9 +237,27 @@ $(document).ready(function(){
     $("#settings_form").submit(function(event){
         event.preventDefault();
     });
+    
+    $("#settings").bind("pageshow", function(){
+	    var distance = get_cookie("settings_distance");
+	    var slider = $("#settings_distance");
+	    if (distance != false) {
+	    	slider.val(distance);
+	    }
+    	slider.slider("refresh");
+    });
+    
+    $("#settings_button").click(function(){
+	    $("#settings").show();
+        $("#main").hide();
+    });
+    
+    $("#settings_exit").click(function(){
+        $("#settings").hide();
+        $("#main").show();    	
+    });
         
-    $("#settings_back").click(function(event){
-
+    $("#settings_done").click(function(event){
         if ($("#settings_distance").val()) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
