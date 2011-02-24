@@ -66,7 +66,7 @@ function position_error(error) {
  * Takes an object literal (and/or json??, not sure!) and converts it into a/many
  * dom element.
  */
-function events_to_html(event,e) {
+function events_to_html(event,identifier) {
 
     if (event instanceof Array) {
         var events = new Array();
@@ -90,8 +90,8 @@ function events_to_html(event,e) {
 	venue_element.prepend(startdate_element); 
 	event_element.append(h1_element);
     event_element.append(venue_element);
-	event_element.wrapInner("<a href='#ei-"+e+" data->");
-    create_subpage(e,event);
+	event_element.wrapInner("<a href='#extended-information-"+identifier+">");
+    create_subpage(identifier,event);
 	return event_element;
 
 }
@@ -100,8 +100,9 @@ function events_to_html(event,e) {
  */
 
 function create_subpage(identifier , event){
+	
 	var subpage = $('#extended-information').clone();
-	subpage.attr({'data-url':'ei-'+identifier, 'id':+identifier });
+	subpage.attr('data-url','extended-information-'+identifier);
 	subpage.find("h2").html(event.title);
 	subpage.find("h3 time").attr({ 
             title: format_unixtime(event.event_time, "microformat"),
@@ -150,16 +151,16 @@ function render_events (json) {
  * Retrieves events from the api given some parameters and runs either success
  * or error.
  */
-function get_events (options, success, error) {
+function get_events (parameters, success, error) {
 
-    if (!options.latitude || !options.longitude) {
+    if (!parameters.latitude || !parameters.longitude) {
         error();
     }
 
-    var request_url = '/events.json?longitude=' + options.longitude + '&latitude=' + options.latitude;
+    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + options.latitude;
     
-    if (is_int(options.distance)) {
-        request_url += "&distance=" + options.distance.toString();
+    if (is_int(parameters.distance)) {
+        request_url += "&distance=" + parameters.distance.toString();
     }
     
     $.ajax({

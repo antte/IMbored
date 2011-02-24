@@ -5,7 +5,11 @@ class LastfmAPIInterpreter
     include ActionView::Helpers::SanitizeHelper
     @@apiKey = "ff6907a95706562150e0b7f914ebf031"
     def get_events(options)
-      return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
+        return getXMLByGeoParseToEventObjs(options[:longitude].to_f, options[:latitude].to_f, options[:distance].to_i)        
+    end
+
+    def get_event(identifier)
+        return getXMLByIdParseToEventObj(identifier)        
     end
 
     private 
@@ -41,6 +45,27 @@ class LastfmAPIInterpreter
         end
         return @events
     end
+
+
+    def getXMLByIdParseToEventObj(id)
+        api_key = @@apiKey #(Required) : A Last.fm API key.
+
+        urlString = "http://ws.audioscrobbler.com/2.0/?method=event.getinfo&event="+id+"&api_key="+api_key
+
+        url = URI.parse(urlString)
+        req = Net::HTTP::Get.new(url.path+'?'+url.query)
+        res = Net::HTTP.start(url.host, url.port) {|http|
+          http.request(req)
+        }
+        doc = Document.new( res.body )
+        doc.elements.each("lfm/event") do |event|
+          event = populateEventFromXml(event)
+          if event then
+            return event
+          end
+        end
+        return nil
+    end
          
     def populateEventFromXml(item)
         event_time = ""
@@ -56,10 +81,11 @@ class LastfmAPIInterpreter
         }
 
         option = {
-          :title => item.elements["title"] !=nil ? item.elements["title"].text : "",
-          :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
-          :location => location,
-          :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : ""
+            :id => "lastfm_" + (item.elements["id"].text),
+            :title => item.elements["title"] !=nil ? item.elements["title"].text : "",
+            :description => item.elements["description"] !=nil ? strip_tags(item.elements["description"].text) : "",
+            :location => location,
+            :event_time => item.elements["startDate"] !=nil ?  Time.zone.parse(item.elements["startDate"].text).to_i : ""
         }
         event = Event.new(option)
         return event     

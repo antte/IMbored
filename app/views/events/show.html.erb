@@ -1,45 +1,10 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Titel:</b>
-  <%= @event.title %>
-</p>
-
-<p>
-  <b>Location:</b>
-  <%= @event.location %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @event.description %>
-</p>
-
-<p>
-  <b>Latitude:</b>
-  <%= @event.latitude %>
-</p>
-
-<p>
-  <b>Longitude:</b>
-  <%= @event.longitude %>
-</p>
-
-<p>
-  <b>Price:</b>
-  <%= @event.price %>
-</p>
-
-<p>
-  <b>Starttime:</b>
-  <%= @event.startTime %>
-</p>
-
-<p>
-  <b>Endtime:</b>
-  <%= @event.endTime %>
-</p>
-
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<h1>Single event</h1>
+<h2><%= @event.title %></h2>
+<ul>
+    <li><%= @event.location[:street] %></li>
+    <li><%= @event.location[:postal_code] %></li>
+    <li><%= @event.location[:city] %></li>
+    <li><%= @event.location[:contry] %></li>
+    <td><%= @event.description %></li>
+    <td><%= @event.event_time %></li>
+</ul>
