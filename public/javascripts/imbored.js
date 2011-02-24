@@ -267,13 +267,12 @@ $(document).ready(function(){
 		
 		event.preventDefault();
 		
-        if ($("#settings_distance").val()) {
+        if ($("#settings_distance").val() != get_cookie("settings_distance")) {
             var now = new Date();
             var expires = now.getTime()+2592000000;
             set_cookie("settings_distance", $("#settings_distance").val() , new Date(expires));
+			get_position(position_success, position_error);
 		}
-		
-		get_position(position_success, position_error);
 		
 		$("#settings").hide();
         $("#main").show();
