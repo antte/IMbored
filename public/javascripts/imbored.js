@@ -269,6 +269,10 @@ $(document).ready(function(){
 		
 	});
 	
+	$("#reload_button").click(function(){
+		get_position(position_success, position_error);
+	});
+	
 	$(document).ajaxStart(function(){
 		$.mobile.pageLoading();
 	});
