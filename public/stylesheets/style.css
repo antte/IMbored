@@ -27,10 +27,18 @@
 	background: url('../images/imbored_logo.png');
 	background-color: white;
 	color:white;
+}  
+
+
+.imbored-text {
+	font-family: 'Corben', arial, serif;
+	font-size: 2.5em !important;
+	margin: 0px !important;
+	font-weight: normal;
 } 
 
 body {
-background : #ddd;
+	background : #ddd;
 }
 
 

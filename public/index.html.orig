@@ -24,7 +24,12 @@
     <body>
         <div data-role="page" id="main">
 			<div data-role="header" data-position="inline" data-backbtn="false">
+<<<<<<< HEAD
+				<a href="#" id="reload_button" data-icon="refresh" class="ui-btn-left" data-transition="slide">Ladda om</a>
+				<h1>imBored</h1>		
+=======
 				<h1 class="imbored-text">imBored</h1>		
+>>>>>>> d3f3992cc8212c6ee6fef845abaaa3aa21d0a989
 				<a href="#settings" id="settings_button" data-icon="gear" class="ui-btn-right" data-transition="flip">Inställningar</a>
 			</div>
             <div data-role="content">
