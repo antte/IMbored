@@ -275,6 +275,7 @@ $(document).ready(function(){
 	
 	$(document).ajaxStart(function(){
 		$.mobile.pageLoading();
+		$('.ui-loader h1').text('Laddar');
 	});
 	
 	$(document).ajaxStop(function(){
