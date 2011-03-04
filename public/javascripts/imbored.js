@@ -15,13 +15,13 @@ $(function() {
 
     get_position(position_received_callback);
 
-    // This function is should be called when the get_position succeeds
+    // This function should be called when the get_position succeeds
     function position_received_callback(position) {
         user_position = position;
         get_events(user_position, events_received_callback); 
     }
 
-    // This function is should be called when the get_events succeeds
+    // This function should be called when the get_events succeeds
     function events_received_callback(events) {
         render_events(events, events_container);
     }
