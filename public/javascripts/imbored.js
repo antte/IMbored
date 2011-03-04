@@ -18,6 +18,7 @@ $(function() {
     // This function should be called when the get_position succeeds
     function position_received_callback(position) {
         user_position = position;
+        user_position.distance = parseInt(get_cookie("settings_distance"));
         get_events(user_position, events_received_callback); 
     }
 
@@ -178,24 +179,24 @@ function render_events(json, events_container) {
 
         return event_element;
     }
-}
 
+    /*
+     *Populate copy of a #extended information with a event and append it to body
+     */
+    function create_extended_information_page(event, identifier){
+        var subpage = $('#extended-information').clone();
+        subpage.attr('data-url',identifier);
+        subpage.find("h2").html(event.title);
+        subpage.find("h3 time").attr({ 
+            title: format_unixtime(event.event_time, "microformat"),
+            datetime: format_unixtime(event.event_time, "html5")
+        }).addClass("dtstart").text(format_unixtime(event.event_time, "human") +' : ');
+        subpage.find("h3").append(event.location.venue);			
+        subpage.find("p").text(event.description)
+        subpage.find("address").text(event.location.street +' - '+ event.location.postal_code +' '+event.location.city +' - '+ event.location.country);
+        $("body").append(subpage);	
+    }
 
-/*
- *Populate copy of a #extended information with a event and append it to body
- */
-function create_extended_information_page(event, identifier){
-    var subpage = $('#extended-information').clone();
-    subpage.attr('data-url',identifier);
-    subpage.find("h2").html(event.title);
-    subpage.find("h3 time").attr({ 
-        title: format_unixtime(event.event_time, "microformat"),
-        datetime: format_unixtime(event.event_time, "html5")
-    }).addClass("dtstart").text(format_unixtime(event.event_time, "human") +' : ');
-    subpage.find("h3").append(event.location.venue);			
-    subpage.find("p").text(event.description)
-    subpage.find("address").text(event.location.street +' - '+ event.location.postal_code +' '+event.location.city +' - '+ event.location.country);
-    $("body").append(subpage);	
 }
 
 /******************
