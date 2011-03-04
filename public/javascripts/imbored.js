@@ -17,14 +17,12 @@ $(function() {
 
     // This function is should be called when the get_position succeeds
     function position_received_callback(position) {
-        console.log("Position has been received");
         user_position = position;
         get_events(user_position, events_received_callback); 
     }
 
     // This function is should be called when the get_events succeeds
     function events_received_callback(events) {
-        console.log("Events has been received");
         render_events(events, events_container);
     }
 
@@ -98,7 +96,6 @@ function get_position(callback) {
 
     }
     function error_callback(error) {
-        console.log("error_callback in get_position called");
         make_error("Failed...")();
     }
 
