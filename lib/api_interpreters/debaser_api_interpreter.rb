@@ -99,6 +99,17 @@ class DebaserAPIInterpreter
                 :latitude => "59.339983",
                 :venue => "Debaser Medis"
             }
+        else
+            location = {
+                :street => "Unknown",
+                :postal_code => "",
+                :country => "",
+                :city => "",
+                :county =>"",
+                :longitude => "0.0",
+                :latitude => "0.0",
+                :venue => "Unknown"
+            }
         end
 
 
