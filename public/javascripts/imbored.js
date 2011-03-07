@@ -82,7 +82,6 @@ function get_position(callback) {
     }   
 
 	function getGeoLocation() { 
-		alert('geobastard');
 
 		$.get("/system/geolocation",function(data){ 
 			  geo = data.split(";"); 
