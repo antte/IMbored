@@ -53,6 +53,7 @@ $(function() {
     });
 	
     $("#reload_button").click(function() {
+        user_position.distance = parseInt(get_cookie("settings_distance"));
         get_events(user_position, events_received_callback); 
     });
 
