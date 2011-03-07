@@ -20,7 +20,7 @@ class DebaserAPIInterpreter
     def getXMLParseToEventObjs(longitude,latitude,dist)
         @events = Array.new 
         startTime = Time.new
-        endTime = startTime + (60 * 60 * 24 * 7) # Seven days
+        endTime = startTime + (60 * 60 * 24 * 1) # One day
 
         startDate = startTime.strftime("%Y%m%d")
         endDate= endTime.strftime("%Y%m%d")
