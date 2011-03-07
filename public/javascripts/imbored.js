@@ -6,6 +6,7 @@
  */
 
 var events_getable = true;
+var geo;
 
 // Document ready shorthand
 $(function() {
@@ -77,7 +78,16 @@ function get_position(callback) {
     if (navigator.geolocation) {
         var options = {timeout:5000, maximumAge: 600000};
         navigator.geolocation.getCurrentPosition(success_callback, error_callback, options);
-    }
+    }   
+
+	function getGeoLocation() { 
+		alert('geobastard');
+
+		$.get("/system/geolocation",function(data){ 
+			  geo = data.split(";"); 
+		});	                                 
+	}
+	getGeoLocation();
 
     function success_callback(position) {
 
@@ -109,7 +119,7 @@ function get_position(callback) {
  */
 function get_events(parameters, success_callback) {
 
-    var request_url = '/events.json?longitude=' + parameters.longitude + '&latitude=' + parameters.latitude;
+    var request_url = 'http://imbored.heroku.com/events.json?callback=?&longitude=' + parameters.longitude + '&latitude=' + parameters.latitude;
  
     // The backend can't(or shouldn't) handle a non-integer distance
     if (is_int(parameters.distance)) {
