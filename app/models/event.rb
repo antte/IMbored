@@ -7,7 +7,6 @@ class Event
     end
     
     def initialize(attributes = {})
-        puts(attributes)
         self.id = attributes[:id]
         self.title = attributes[:title]
         self.description = attributes[:description]

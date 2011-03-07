@@ -34,7 +34,6 @@ class DebaserAPIInterpreter
         }
 
         doc = Document.new( res.body )
-        puts doc
         doc.elements.each("xml/event") do |event|
             if event.elements["eventstatus"].text != "Inställt" then
                 @events.push populateEventFromXml(event) if populateEventFromXml(event) 
