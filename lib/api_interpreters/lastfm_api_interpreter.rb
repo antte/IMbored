@@ -30,6 +30,7 @@ class LastfmAPIInterpreter
         api_key = @@apiKey #(Required) : A Last.fm API key.
 
         urlString = "http://ws.audioscrobbler.com/2.0/?method=geo.getevents&lat="+lat.to_s+"&long="+long.to_s+"&api_key="+api_key 
+        urlString = urlString + "&limit=30"
 
         if dist != nil then
             urlString += "&distance=" + dist.to_s
@@ -42,10 +43,10 @@ class LastfmAPIInterpreter
         }
         doc = Document.new( res.body )
         doc.elements.each("lfm/events/event") do |event|
-          event = populateEventFromXml(event)
-          if event then
-            @events.push event
-          end
+            event = populateEventFromXml(event)
+            if event then
+                @events.push event
+            end
         end
         return @events
     end
@@ -73,10 +74,14 @@ class LastfmAPIInterpreter
          
     def populateEventFromXml(item)
 
+        if Date.tomorrow < Date.parse(item.elements["startDate"].text)
+            return nil
+        end
+
         event_time = ""
 
         item_coordinates = Geokit::LatLng.new(item.elements["venue/location/geo:point/geo:lat"].text, item.elements["venue/location/geo:point/geo:long"].text)
-        
+
         if @@request_coordinates == nil then
             distance_to_item = "unknown"
         else
