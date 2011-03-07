@@ -36,10 +36,9 @@ class DebaserAPIInterpreter
         doc = Document.new( res.body )
         doc.elements.each("xml/event") do |event|
             if event.elements["eventstatus"].text != "Inställt" then
-                @events.push populateEventFromXml(event) if populateEventFromXml(event) 
+                @events.push populateEventFromXml(event, dist) if populateEventFromXml(event, dist) 
             end
         end
-
 
         return @events
     end
@@ -49,7 +48,7 @@ class DebaserAPIInterpreter
         return nil
     end
          
-    def populateEventFromXml(item)
+    def populateEventFromXml(item, max_distance)
         event_time = ""
 
         venue_name = item.elements["venueslug"]
@@ -144,6 +143,12 @@ class DebaserAPIInterpreter
             :event_time => starttime,
             :distance => distance_to_item.to_i
         }
+
+        if distance_to_item > max_distance then
+            return nil
+        end
+
+
         event = Event.new(option)
         return event     
     end
